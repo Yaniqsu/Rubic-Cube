@@ -425,6 +425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 458624280}
   - component: {fileID: 458624279}
+  - component: {fileID: 458624281}
   m_Layer: 0
   m_Name: Player Controller
   m_TagString: Untagged
@@ -448,13 +449,58 @@ MonoBehaviour:
   rotateName: Rotate
   mouseDelta: Mouse
   interactName: Interact
-  onRotate:
+  onRotateObject:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1734498978}
-        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+      - m_Target: {fileID: 458624281}
+        m_TargetAssemblyTypeName: ObjectRotationController, Assembly-CSharp
         m_MethodName: Rotate
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMove:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 861858836}
+        m_TargetAssemblyTypeName: CubeController, Assembly-CSharp
+        m_MethodName: ExecuteRotation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMoveStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 861858836}
+        m_TargetAssemblyTypeName: CubeController, Assembly-CSharp
+        m_MethodName: StartRotation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMoveEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 861858836}
+        m_TargetAssemblyTypeName: CubeController, Assembly-CSharp
+        m_MethodName: EndRotation
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -479,6 +525,20 @@ Transform:
   - {fileID: 430885334}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &458624281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458624278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a685f0a9b88a954aa3ea21c534de467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  objTransform: {fileID: 1734498977}
+  speed: 0.5
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,8 +598,9 @@ GameObject:
   m_Component:
   - component: {fileID: 861858834}
   - component: {fileID: 861858835}
+  - component: {fileID: 861858836}
   m_Layer: 0
-  m_Name: Cube Spawner
+  m_Name: Cube Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -573,9 +634,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e7f8f8dada84441a2c5b199b9ecea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CubeSpawner
-  size: 3
   context: {fileID: 1734498977}
   elementPrefab: {fileID: 7045152124334542043, guid: fa92c54333b80da4a8778e87a2412e9a, type: 3}
+--- !u!114 &861858836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861858833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fc4aeed14408e24f9b37761f596e061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CubeController
+  spawner: {fileID: 861858835}
+  cubeRoot: {fileID: 1734498977}
+  cubeLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1734498976
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,7 +662,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1734498977}
-  - component: {fileID: 1734498978}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -608,21 +684,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 861858834}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1734498978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1734498976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a685f0a9b88a954aa3ea21c534de467, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  speed: 0.5
-  guwno: {fileID: 430885334}
-  pitchClamp: {x: -80, y: 80}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

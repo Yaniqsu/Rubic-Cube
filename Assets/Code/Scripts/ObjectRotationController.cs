@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CameraController : MonoBehaviour
+public class ObjectRotationController : MonoBehaviour
 {
+    [SerializeField] private Transform objTransform;
     [SerializeField] private float speed;
 
     private Transform _cameraTransform;
@@ -14,7 +15,7 @@ public class CameraController : MonoBehaviour
 
     public void Rotate(Vector2 delta)
     {
-        transform.Rotate(_cameraTransform.up, -delta.x * speed, Space.World);
-        transform.Rotate(_cameraTransform.right, delta.y * speed, Space.World);
+        objTransform.Rotate(_cameraTransform.up, -delta.x * speed, Space.World);
+        objTransform.Rotate(_cameraTransform.right, delta.y * speed, Space.World);
     }
 }

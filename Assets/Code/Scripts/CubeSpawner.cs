@@ -3,19 +3,13 @@ using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    [SerializeField] private int size;
     [SerializeField] private Transform context;
     [SerializeField] private CubeElement elementPrefab;
 
-    private readonly Dictionary<Vector3, CubeElement> _elements = new();
-
-    private void Start()
+    public Dictionary<Vector3Int, CubeElement> SpawnCube(int size)
     {
-        SpawnCube(size);
-    }
+        Dictionary<Vector3Int, CubeElement> elements = new();
 
-    public void SpawnCube(int size)
-    {
         var cubeSize = elementPrefab.transform.localScale.x;
         var halfSize = Mathf.FloorToInt(size / 2);
         
@@ -37,10 +31,12 @@ public class CubeSpawner : MonoBehaviour
 
                     var elem = Instantiate(elementPrefab, pos, Quaternion.identity, context);
                     EnableElementWalls(elem, new Vector3Int(x, y, z), size);
-                    _elements.Add(pos, elem);
+                    elements.Add(new Vector3Int(x, y, z), elem);
                 }
             }
         }
+
+        return elements;
     }
 
     private void EnableElementWalls(CubeElement element, Vector3Int pos, int size)

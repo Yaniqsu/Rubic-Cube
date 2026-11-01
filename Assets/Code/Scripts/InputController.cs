@@ -10,9 +10,13 @@ public class InputController : MonoBehaviour
     [SerializeField] private string mouseDelta;
     [SerializeField] private string interactName;
 
-    public UnityEvent<Vector2> onRotate;
+    public UnityEvent<Vector2> onRotateObject;
+    public UnityEvent<Vector2> onMove;
+    public UnityEvent onMoveStart;
+    public UnityEvent onMoveEnd;
     private InputActionMap _map;
     private bool _rpm;
+    private bool _lpm;
 
     private void OnEnable()
     {
@@ -37,6 +41,9 @@ public class InputController : MonoBehaviour
 
         _map[rotateName].started += CallOnRPMDown;
         _map[rotateName].canceled += CallOnRPMUp;
+
+        _map[interactName].started += CallOnInteractStart;
+        _map[interactName].canceled += CallOnInteractEnd;
     }
 
     private void DisableInput()
@@ -45,18 +52,37 @@ public class InputController : MonoBehaviour
 
         _map[rotateName].started -= CallOnRPMDown;
         _map[rotateName].canceled -= CallOnRPMUp;
+
+        _map[interactName].started -= CallOnInteractStart;
+        _map[interactName].canceled -= CallOnInteractEnd;
     }
 
     private void CallOnRPMDown(InputAction.CallbackContext context) => _rpm = true;
     private void CallOnRPMUp(InputAction.CallbackContext context) => _rpm = false;
+    private void CallOnInteractStart(InputAction.CallbackContext context)
+    {
+        _lpm = true;
+        onMoveStart.Invoke();
+    }
+    private void CallOnInteractEnd(InputAction.CallbackContext context)
+    {
+        _lpm = false;
+        onMoveEnd.Invoke();
+    }
 
     private void CheckRotation()
     {
-        if (!_rpm)
-            return;
-        
         var val = _map[mouseDelta].ReadValue<Vector2>();
 
-        onRotate.Invoke(val);
+        if (_rpm)
+        {
+            onRotateObject.Invoke(val);
+        }
+        
+        if(_lpm)
+        {
+            onMove.Invoke(val);
+        }
+        
     }
 }
