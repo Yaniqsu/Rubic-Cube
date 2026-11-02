@@ -8,15 +8,21 @@ public class CubeController : MonoBehaviour
     [SerializeField] private CubeSpawner spawner;
     [SerializeField] private Transform cubeRoot;
     [SerializeField] private LayerMask cubeLayer;
+    [SerializeField] private Transform pivot;
     
     private Dictionary<Vector3Int, CubeElement> _elements;
     private Camera _main;
     
     private bool _rotating;
     private float _dragLength;
+    private Vector3 _setRotationAxis;
     private CubeElement _selectedCubeElement;
     private Vector3Int _elementPosition;
     private Vector3 _elementFaceNormal;
+    private Vector3 _totalDragRotation;
+
+    private CubeElement[] _elementsToRotate;
+    private Vector3 _rotationCentre;
 
     private void Start()
     {
@@ -33,8 +39,10 @@ public class CubeController : MonoBehaviour
         {
             hitInfo.collider.gameObject.TryGetComponent(out _selectedCubeElement);
             _elementPosition = GetCurrentElementPosition();
-            _elementFaceNormal = hitInfo.normal;
+            _elementFaceNormal = cubeRoot.InverseTransformDirection(hitInfo.normal).normalized;
             _dragLength = 0;
+            _setRotationAxis = Vector3.zero;
+            _totalDragRotation = Vector3.zero;
             _rotating = true;
         }
     }
@@ -46,28 +54,58 @@ public class CubeController : MonoBehaviour
 
         _dragLength += mouseDelta.magnitude;
 
-        if (_dragLength < 0.5f)
+        if (_dragLength < 1)
             return;
         
         var dragDirection = _main.transform.right * mouseDelta.x + _main.transform.up * mouseDelta.y;
-        var rotationAxis = Vector3.Cross(_elementFaceNormal, dragDirection).normalized;
 
-        var localAxis = cubeRoot.InverseTransformDirection(rotationAxis);
+        var localDrag = cubeRoot.InverseTransformDirection(dragDirection).normalized;
+
+        var rotationAxis = Vector3.Cross(_elementFaceNormal, localDrag).normalized;
+
+        var localAxis = transform.InverseTransformDirection(rotationAxis);
         localAxis = GetClosestAxis(localAxis);
 
-        var pieces = GetElementsToRotate(localAxis);
-        var centre = GetCentre(pieces.ToArray());
-
-        foreach(var p in pieces)
+        if (_setRotationAxis == Vector3.zero)
         {
-            p.transform.RotateAround(centre, localAxis, 1);
+            _setRotationAxis = localAxis;
+            _elementsToRotate = GetElementsToRotate(localAxis).ToArray();
+            _rotationCentre = GetCentre(_elementsToRotate);
+            foreach(var e  in _elementsToRotate)
+            {
+                e.transform.SetParent(pivot);
+            }
         }
+        else if (!DirectionsMatch(_setRotationAxis, localAxis))
+            return;
+
+        RotateElements(localAxis);
+    }
+    private void RotateElements(Vector3 axis)
+    {
+        pivot.transform.Rotate(axis);
+        _totalDragRotation += axis;
     }
 
     public void EndRotation()
     {
         _rotating = false;
         _selectedCubeElement = null;
+        SnapRotation();
+
+        foreach (var e in _elementsToRotate)
+            e.transform.SetParent(cubeRoot);
+
+        pivot.transform.localEulerAngles = Vector3.zero;
+    }
+
+
+    private void SnapRotation()
+    {
+        var rest = new Vector3(
+            _totalDragRotation.x % 800,
+            _totalDragRotation.y % 800,
+            _totalDragRotation.z % 800);
     }
 
     Vector3 GetClosestAxis(Vector3 axis)
@@ -102,13 +140,7 @@ public class CubeController : MonoBehaviour
     {
         foreach (var (pos, elem) in _elements)
         {
-            if (rotationAxis.x != 0 && pos.x == _elementPosition.x)
-                yield return elem;
-
-            if (rotationAxis.y != 0 && pos.y == _elementPosition.y)
-                yield return elem;
-
-            if (rotationAxis.z != 0 && pos.z == _elementPosition.z)
+            if(Vector3.Dot(pos, rotationAxis) == Vector3.Dot(_elementPosition, rotationAxis))
                 yield return elem;
         }
     }
@@ -119,11 +151,25 @@ public class CubeController : MonoBehaviour
 
         foreach(var e in elements)
         {
-            centre += e.transform.localPosition;
+            centre += e.transform.position;
         }
 
         centre /= elements.Length;
 
         return centre;
+    }
+
+    private bool DirectionsMatch(Vector3 a, Vector3 b)
+    {
+        if (Mathf.Abs(a.x) != Mathf.Abs(b.x))
+            return false;
+
+        if (Mathf.Abs(a.y) != Mathf.Abs(b.y))
+            return false;
+
+        if (Mathf.Abs(a.z) != Mathf.Abs(b.z))
+            return false;
+
+        return true;
     }
 }
