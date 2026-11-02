@@ -37,13 +37,7 @@ public class CubeController : MonoBehaviour
 
         if (hit)
         {
-            hitInfo.collider.gameObject.TryGetComponent(out _selectedCubeElement);
-            _elementPosition = GetCurrentElementPosition();
-            _elementFaceNormal = cubeRoot.InverseTransformDirection(hitInfo.normal).normalized;
-            _dragLength = 0;
-            _setRotationAxis = Vector3.zero;
-            _totalDragRotation = Vector3.zero;
-            _rotating = true;
+            InitializeRotation(hitInfo);   
         }
     }
 
@@ -99,13 +93,39 @@ public class CubeController : MonoBehaviour
         pivot.transform.localEulerAngles = Vector3.zero;
     }
 
+    private void InitializeRotation(RaycastHit hitInfo)
+    {
+        hitInfo.collider.gameObject.TryGetComponent(out _selectedCubeElement);
+        _elementPosition = GetCurrentElementPosition();
+        _elementFaceNormal = cubeRoot.InverseTransformDirection(hitInfo.normal).normalized;
+        _dragLength = 0;
+        _setRotationAxis = Vector3.zero;
+        _totalDragRotation = Vector3.zero;
+        _rotating = true;
+    }
 
     private void SnapRotation()
     {
+        var rotation = pivot.localEulerAngles;
+        
         var rest = new Vector3(
-            _totalDragRotation.x % 800,
-            _totalDragRotation.y % 800,
-            _totalDragRotation.z % 800);
+            Mathf.Abs(rotation.x) % 90,
+            Mathf.Abs(rotation.y) % 90,
+            Mathf.Abs(rotation.z) % 90);
+
+        if(rest.magnitude > 45)
+            pivot.localEulerAngles += ((AbsSign(rest) * 90) - rest);
+        else
+            pivot.localEulerAngles -= rest;  
+
+    }
+
+    private Vector3 AbsSign(Vector3 vec)
+    {
+        return new(
+            vec.x == 0 ? 0 : 1,
+            vec.y == 0 ? 0 : 1,
+            vec.z == 0 ? 0 : 1);
     }
 
     Vector3 GetClosestAxis(Vector3 axis)
