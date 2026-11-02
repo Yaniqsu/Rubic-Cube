@@ -6,10 +6,8 @@ public class CubeSpawner : MonoBehaviour
     [SerializeField] private Transform context;
     [SerializeField] private CubeElement elementPrefab;
 
-    public Dictionary<Vector3Int, CubeElement> SpawnCube(int size)
+    public IEnumerable<CubeElement> SpawnCube(int size)
     {
-        Dictionary<Vector3Int, CubeElement> elements = new();
-
         var cubeSize = elementPrefab.transform.localScale.x;
         var halfSize = Mathf.FloorToInt(size / 2);
         
@@ -31,12 +29,14 @@ public class CubeSpawner : MonoBehaviour
 
                     var elem = Instantiate(elementPrefab, pos, Quaternion.identity, context);
                     EnableElementWalls(elem, new Vector3Int(x, y, z), size);
-                    elements.Add(new Vector3Int(x, y, z), elem);
+
+                    elem.Position = new Vector3Int(x, y, z);
+                    elem.OriginalPosition= new Vector3Int(x, y, z);
+
+                    yield return elem;
                 }
             }
         }
-
-        return elements;
     }
 
     private void EnableElementWalls(CubeElement element, Vector3Int pos, int size)

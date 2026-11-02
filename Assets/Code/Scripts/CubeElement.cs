@@ -1,5 +1,7 @@
+using Unity.Collections;
 using UnityEngine;
 
+[SelectionBase]
 public class CubeElement : MonoBehaviour
 {
     private bool _topWallEnabled;
@@ -9,12 +11,16 @@ public class CubeElement : MonoBehaviour
     private bool _frontWallEnabled;
     private bool _backWallEnabled;
     
+    [field: SerializeField, ReadOnly] public Vector3Int Position { get; set; }
+    public Vector3Int OriginalPosition { get; set; }
+
     [SerializeField] private GameObject wallTop;
     [SerializeField] private GameObject wallBottom;
     [SerializeField] private GameObject wallRight;
     [SerializeField] private GameObject wallLeft;
     [SerializeField] private GameObject wallFront;
     [SerializeField] private GameObject wallBack;
+
 
     public bool EnableTopWall
     {
