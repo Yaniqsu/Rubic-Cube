@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
     [SerializeField] private int size;
+    [SerializeField] private float speed;
     [SerializeField] private int randomizeTurns;
     [SerializeField] private CubeSpawner spawner;
     [SerializeField] private Transform cubeRoot;
@@ -20,7 +22,7 @@ public class CubeController : MonoBehaviour
     private CubeElement _selectedCubeElement;
     private Vector3Int _elementPosition;
     private Vector3 _elementFaceNormal;
-    private Vector3 _totalDragRotation;
+    private Vector3 _totalRotation;
 
     private CubeElement[] _elementsToRotate;
 
@@ -96,12 +98,14 @@ public class CubeController : MonoBehaviour
         else if (!DirectionsMatch(_setRotationAxis, localAxis))
             return;
 
-        RotateElements(localAxis);
+        RotateElements(Time.deltaTime * speed * localAxis);
     }
 
     private void ForceRotation(Vector3 axis)
     {
-        _totalDragRotation = Vector3.zero;
+        Debug.Log($"Force: {axis}");
+        pivot.localEulerAngles = Vector3.zero;   
+        _totalRotation = Vector3.zero;
         
         _elementsToRotate = GetElementsToRotate(axis).ToArray();
 
@@ -118,7 +122,14 @@ public class CubeController : MonoBehaviour
     private void RotateElements(Vector3 axis)
     {
         pivot.transform.Rotate(axis);
-        _totalDragRotation += axis;
+        _totalRotation += axis;
+    }
+
+    private void SetRotation(Vector3 rotationEuler)
+    {
+        var diff = pivot.transform.localEulerAngles - rotationEuler;
+
+        pivot.transform.localEulerAngles = rotationEuler;
     }
 
     public void EndRotation()
@@ -128,9 +139,8 @@ public class CubeController : MonoBehaviour
         foreach (var e in _elementsToRotate)
             e.transform.SetParent(cubeRoot);
 
-        pivot.transform.localEulerAngles = Vector3.zero;
+        var dragRotationNormalised = _totalRotation / 90;
 
-        var dragRotationNormalised = _totalDragRotation / 90;
         CalculateNewPositions(new Vector3Int(
             Mathf.RoundToInt(dragRotationNormalised.x), 
             Mathf.RoundToInt(dragRotationNormalised.y),
@@ -139,9 +149,9 @@ public class CubeController : MonoBehaviour
         if (CubeSolved())
             Debug.Log("Solved");
 
+        pivot.transform.localEulerAngles = Vector3.zero;
         _dragLength = 0;
         _setRotationAxis = Vector3.zero;
-        _totalDragRotation = Vector3.zero;
         _rotating = false;
         _selectedCubeElement = null;
     }
@@ -149,6 +159,7 @@ public class CubeController : MonoBehaviour
     private void InitializeRotation(RaycastHit hitInfo)
     {
         hitInfo.collider.gameObject.TryGetComponent(out _selectedCubeElement);
+        _totalRotation = Vector3.zero;
         _elementPosition = _selectedCubeElement.Position;
         _elementFaceNormal = cubeRoot.InverseTransformDirection(hitInfo.normal).normalized;
         _rotating = true;
@@ -163,11 +174,11 @@ public class CubeController : MonoBehaviour
             Mathf.Abs(rotation.y) % 90,
             Mathf.Abs(rotation.z) % 90);
 
-        if(rest.magnitude > 45)
-            RotateElements((AbsSign(rest) * 90) - rest);
-        else
-            RotateElements(-rest);  
 
+        if(rest.magnitude > 45)
+            SetRotation(rotation + (AbsSign(rest) * 90) - rest);
+        else
+            SetRotation(rotation - rest);  
     }
 
     private void CalculateNewPositions(Vector3Int rotation)
