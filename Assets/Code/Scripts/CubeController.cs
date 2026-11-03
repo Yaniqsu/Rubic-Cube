@@ -37,6 +37,11 @@ public class CubeController : MonoBehaviour
     {
         for(var i = 0; i < turns; i++)
         {
+            _elementPosition = new Vector3Int(
+                Random.Range(0, size),
+                Random.Range(0, size),
+                Random.Range(0, size));
+            
             var rotation = Random.Range(1, 4) * (Random.Range(0, 2) == 0 ? 1 : -1) * 90;
 
             switch(Random.Range(0, 3))

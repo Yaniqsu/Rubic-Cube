@@ -273,7 +273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &410087040
 Light:
   m_ObjectHideFlags: 0
@@ -650,7 +650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CubeController
   size: 3
   speed: 200
-  randomizeTurns: 10
+  randomizeTurns: 15
   spawner: {fileID: 861858835}
   cubeRoot: {fileID: 1734498977}
   cubeLayer:

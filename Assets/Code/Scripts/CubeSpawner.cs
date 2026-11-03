@@ -9,7 +9,7 @@ public class CubeSpawner : MonoBehaviour
     public IEnumerable<CubeElement> SpawnCube(int size)
     {
         var cubeSize = elementPrefab.transform.localScale.x;
-        var halfSize = Mathf.FloorToInt(size / 2);
+        var halfSize = (size - 1) / 2f;
         
         var startPos = new Vector3(
             -cubeSize * halfSize,
