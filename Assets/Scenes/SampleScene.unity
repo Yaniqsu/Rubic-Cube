@@ -407,14 +407,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430885333}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 330585546}
   m_Father: {fileID: 458624280}
-  m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!1 &458624278
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,6 +426,7 @@ GameObject:
   - component: {fileID: 458624280}
   - component: {fileID: 458624279}
   - component: {fileID: 458624281}
+  - component: {fileID: 458624282}
   m_Layer: 0
   m_Name: Player Controller
   m_TagString: Untagged
@@ -449,6 +450,7 @@ MonoBehaviour:
   rotateName: Rotate
   mouseDelta: Mouse
   interactName: Interact
+  scrollName: Zoom
   onRotateObject:
     m_PersistentCalls:
       m_Calls:
@@ -470,6 +472,21 @@ MonoBehaviour:
       - m_Target: {fileID: 861858836}
         m_TargetAssemblyTypeName: CubeController, Assembly-CSharp
         m_MethodName: ExecuteRotation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onScroll:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 458624282}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: Zoom
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -539,6 +556,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   objTransform: {fileID: 1734498977}
   speed: 0.5
+--- !u!114 &458624282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458624278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57cee7c09ab967547929ae967ce909b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  cameraTransform: {fileID: 330585546}
+  cubeController: {fileID: 861858836}
+  <ZoomMin>k__BackingField: 0
+  <ZoomMax>k__BackingField: 30
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,7 +683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CubeController
   size: 3
   speed: 200
-  randomizeTurns: 15
+  randomizeTurns: 30
   spawner: {fileID: 861858835}
   cubeRoot: {fileID: 1734498977}
   cubeLayer:

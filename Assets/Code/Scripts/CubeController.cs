@@ -26,6 +26,8 @@ public class CubeController : MonoBehaviour
 
     private CubeElement[] _elementsToRotate;
 
+    public int Size => size;
+
     private void Start()
     {
         _main = Camera.main;
@@ -108,7 +110,6 @@ public class CubeController : MonoBehaviour
 
     private void ForceRotation(Vector3 axis)
     {
-        Debug.Log($"Force: {axis}");
         pivot.localEulerAngles = Vector3.zero;   
         _totalRotation = Vector3.zero;
         

@@ -9,9 +9,11 @@ public class InputController : MonoBehaviour
     [SerializeField] private string rotateName;
     [SerializeField] private string mouseDelta;
     [SerializeField] private string interactName;
+    [SerializeField] private string scrollName;
 
     public UnityEvent<Vector2> onRotateObject;
     public UnityEvent<Vector2> onMove;
+    public UnityEvent<float> onScroll;
     public UnityEvent onMoveStart;
     public UnityEvent onMoveEnd;
     private InputActionMap _map;
@@ -31,6 +33,8 @@ public class InputController : MonoBehaviour
     private void Update()
     {
         CheckRotation();
+
+        CheckScroll();
     }
 
     private void EnableInput()
@@ -83,6 +87,13 @@ public class InputController : MonoBehaviour
         {
             onMove.Invoke(val);
         }
-        
+    }
+
+    private void CheckScroll()
+    {
+        var val = _map[scrollName].ReadValue<Vector2>();
+
+        onScroll.Invoke(val.y);
+        Debug.Log(val.y);
     }
 }
