@@ -469,8 +469,8 @@ MonoBehaviour:
   onMove:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 861858836}
-        m_TargetAssemblyTypeName: CubeController, Assembly-CSharp
+      - m_Target: {fileID: 861858837}
+        m_TargetAssemblyTypeName: CubeRotator, Assembly-CSharp
         m_MethodName: ExecuteRotation
         m_Mode: 0
         m_Arguments:
@@ -499,8 +499,8 @@ MonoBehaviour:
   onMoveStart:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 861858836}
-        m_TargetAssemblyTypeName: CubeController, Assembly-CSharp
+      - m_Target: {fileID: 861858837}
+        m_TargetAssemblyTypeName: CubeRotator, Assembly-CSharp
         m_MethodName: StartRotation
         m_Mode: 1
         m_Arguments:
@@ -514,8 +514,8 @@ MonoBehaviour:
   onMoveEnd:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 861858836}
-        m_TargetAssemblyTypeName: CubeController, Assembly-CSharp
+      - m_Target: {fileID: 861858837}
+        m_TargetAssemblyTypeName: CubeRotator, Assembly-CSharp
         m_MethodName: EndRotation
         m_Mode: 1
         m_Arguments:
@@ -569,7 +569,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   cameraTransform: {fileID: 330585546}
-  cubeController: {fileID: 861858836}
   <ZoomMin>k__BackingField: 0
   <ZoomMax>k__BackingField: 30
 --- !u!1 &832575517
@@ -630,8 +629,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 861858834}
-  - component: {fileID: 861858835}
   - component: {fileID: 861858836}
+  - component: {fileID: 861858837}
+  - component: {fileID: 861858835}
   m_Layer: 0
   m_Name: Cube Controller
   m_TagString: Untagged
@@ -681,15 +681,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc4aeed14408e24f9b37761f596e061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CubeController
-  size: 3
-  speed: 200
-  randomizeTurns: 30
   spawner: {fileID: 861858835}
+  rotator: {fileID: 861858837}
+  size: 3
+  randomizeTurns: 30
+--- !u!114 &861858837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861858833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d701d486fc9c67f4f8fc305097a21712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CubeRotator
+  speed: 300
+  errorMargin: 3
   cubeRoot: {fileID: 1734498977}
   cubeLayer:
     serializedVersion: 2
     m_Bits: 64
   pivot: {fileID: 2063528721}
+--- !u!1 &920705160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 920705162}
+  - component: {fileID: 920705161}
+  m_Layer: 0
+  m_Name: Puzzle Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &920705161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920705160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f540a5522fe1e8448f7e307d44e830f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PuzzleManager
+  cubeController: {fileID: 861858836}
+  cameraController: {fileID: 458624282}
+--- !u!4 &920705162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920705160}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1734498976
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,7 +817,8 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 920705162}
   - {fileID: 458624280}
+  - {fileID: 861858834}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 861858834}

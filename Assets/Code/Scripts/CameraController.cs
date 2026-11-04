@@ -3,14 +3,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private Transform cameraTransform;
-    [SerializeField] private CubeController cubeController;
     [field: SerializeField] public float ZoomMin { get; set; }
     [field: SerializeField] public float ZoomMax {get; set; }
-
-    private void Start()
-    {
-        ZoomMin = cubeController.Size;
-    }
 
     public void Zoom(float delta)
     {

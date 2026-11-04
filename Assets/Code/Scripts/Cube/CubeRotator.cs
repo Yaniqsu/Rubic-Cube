@@ -1,21 +1,20 @@
+using System;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public class CubeController : MonoBehaviour
+public class CubeRotator : MonoBehaviour
 {
-    [SerializeField] private int size;
     [SerializeField] private float speed;
-    [SerializeField] private int randomizeTurns;
-    [SerializeField] private CubeSpawner spawner;
+    [SerializeField] private float errorMargin;
     [SerializeField] private Transform cubeRoot;
     [SerializeField] private LayerMask cubeLayer;
     [SerializeField] private Transform pivot;
-    
+
     private CubeElement[] _elements;
     private Camera _main;
-    
+
+    private int _size;
     private bool _rotating;
     private float _dragLength;
     private Vector3 _setRotationAxis;
@@ -26,42 +25,20 @@ public class CubeController : MonoBehaviour
 
     private CubeElement[] _elementsToRotate;
 
-    public int Size => size;
+    public event Action onRotationEnd;
 
-    private void Start()
+    private void Awake()
     {
         _main = Camera.main;
-        _elements = spawner.SpawnCube(size).ToArray();
-        Randomize(randomizeTurns);
     }
 
-    private void Randomize(int turns)
+    public void Initialize(CubeElement[] elements, int size)
     {
-        for(var i = 0; i < turns; i++)
-        {
-            _elementPosition = new Vector3Int(
-                Random.Range(0, size),
-                Random.Range(0, size),
-                Random.Range(0, size));
-            
-            var rotation = Random.Range(1, 4) * (Random.Range(0, 2) == 0 ? 1 : -1) * 90;
-
-            switch(Random.Range(0, 3))
-            {
-                case 0:
-                    ForceRotation(rotation * Vector3.right);
-                    break;
-
-                case 1:
-                    ForceRotation(rotation * Vector3.up);
-                    break;
-
-                case 2:
-                    ForceRotation(rotation * Vector3.forward);
-                    break;
-            }
-        }
+        _elements = elements;
+        _size = size;
     }
+
+    #region INTERFACE
 
     public void StartRotation()
     {
@@ -70,7 +47,7 @@ public class CubeController : MonoBehaviour
 
         if (hit)
         {
-            InitializeRotation(hitInfo);   
+            InitializeRotation(hitInfo);
         }
     }
 
@@ -81,26 +58,18 @@ public class CubeController : MonoBehaviour
 
         _dragLength += mouseDelta.magnitude;
 
-        if (_dragLength < 1)
+        if (_dragLength < errorMargin)
             return;
-        
+
         var dragDirection = _main.transform.right * mouseDelta.x + _main.transform.up * mouseDelta.y;
-
         var localDrag = cubeRoot.InverseTransformDirection(dragDirection).normalized;
-
         var rotationAxis = Vector3.Cross(_elementFaceNormal, localDrag).normalized;
-
         var localAxis = transform.InverseTransformDirection(rotationAxis);
         localAxis = GetClosestAxis(localAxis);
 
         if (_setRotationAxis == Vector3.zero)
         {
-            _setRotationAxis = localAxis;
-            _elementsToRotate = GetElementsToRotate(localAxis).ToArray();
-            foreach(var e  in _elementsToRotate)
-            {
-                e.transform.SetParent(pivot);
-            }
+            ChooseRotationAxis(localAxis);
         }
         else if (!DirectionsMatch(_setRotationAxis, localAxis))
             return;
@@ -108,12 +77,35 @@ public class CubeController : MonoBehaviour
         RotateElements(Time.deltaTime * speed * localAxis);
     }
 
-    private void ForceRotation(Vector3 axis)
+    public void EndRotation()
     {
-        pivot.localEulerAngles = Vector3.zero;   
+        SnapRotation();
+
+        foreach (var e in _elementsToRotate)
+            e.transform.SetParent(cubeRoot);
+
+        var dragRotationNormalised = _totalRotation / 90;
+
+        CalculateNewPositions(new Vector3Int(
+            Mathf.RoundToInt(dragRotationNormalised.x),
+            Mathf.RoundToInt(dragRotationNormalised.y),
+            Mathf.RoundToInt(dragRotationNormalised.z)));
+
+        pivot.transform.localEulerAngles = Vector3.zero;
+        _dragLength = 0;
+        _setRotationAxis = Vector3.zero;
+        _rotating = false;
+        _selectedCubeElement = null;
+
+        onRotationEnd?.Invoke();
+    }
+
+    public void ForceRotation(Vector3Int elementPos, Vector3 axis)
+    {
+        pivot.localEulerAngles = Vector3.zero;
         _totalRotation = Vector3.zero;
-        
-        _elementsToRotate = GetElementsToRotate(axis).ToArray();
+
+        _elementsToRotate = GetElementsToRotate(elementPos, axis).ToArray();
 
         foreach (var e in _elementsToRotate)
         {
@@ -123,6 +115,27 @@ public class CubeController : MonoBehaviour
         RotateElements(axis);
 
         EndRotation();
+    }
+
+    #endregion
+
+    private void InitializeRotation(RaycastHit hitInfo)
+    {
+        hitInfo.collider.gameObject.TryGetComponent(out _selectedCubeElement);
+        _totalRotation = Vector3.zero;
+        _elementPosition = _selectedCubeElement.Position;
+        _elementFaceNormal = cubeRoot.InverseTransformDirection(hitInfo.normal).normalized;
+        _rotating = true;
+    }
+
+    private void ChooseRotationAxis(Vector3 axis)
+    {
+        _setRotationAxis = axis;
+        _elementsToRotate = GetElementsToRotate(_elementPosition, axis).ToArray();
+        foreach (var e in _elementsToRotate)
+        {
+            e.transform.SetParent(pivot);
+        }
     }
 
     private void RotateElements(Vector3 axis)
@@ -136,60 +149,29 @@ public class CubeController : MonoBehaviour
         var diff = pivot.transform.localEulerAngles - rotationEuler;
 
         pivot.transform.localEulerAngles = rotationEuler;
-    }
 
-    public void EndRotation()
-    {
-        SnapRotation();
-
-        foreach (var e in _elementsToRotate)
-            e.transform.SetParent(cubeRoot);
-
-        var dragRotationNormalised = _totalRotation / 90;
-
-        CalculateNewPositions(new Vector3Int(
-            Mathf.RoundToInt(dragRotationNormalised.x), 
-            Mathf.RoundToInt(dragRotationNormalised.y),
-            Mathf.RoundToInt(dragRotationNormalised.z)));
-
-        if (CubeSolved())
-            Debug.Log("Solved");
-
-        pivot.transform.localEulerAngles = Vector3.zero;
-        _dragLength = 0;
-        _setRotationAxis = Vector3.zero;
-        _rotating = false;
-        _selectedCubeElement = null;
-    }
-
-    private void InitializeRotation(RaycastHit hitInfo)
-    {
-        hitInfo.collider.gameObject.TryGetComponent(out _selectedCubeElement);
-        _totalRotation = Vector3.zero;
-        _elementPosition = _selectedCubeElement.Position;
-        _elementFaceNormal = cubeRoot.InverseTransformDirection(hitInfo.normal).normalized;
-        _rotating = true;
+        _totalRotation += diff;
     }
 
     private void SnapRotation()
     {
         var rotation = pivot.localEulerAngles;
-        
+
         var rest = new Vector3(
             Mathf.Abs(rotation.x) % 90,
             Mathf.Abs(rotation.y) % 90,
             Mathf.Abs(rotation.z) % 90);
 
 
-        if(rest.magnitude > 45)
+        if (rest.magnitude > 45)
             SetRotation(rotation + (AbsSign(rest) * 90) - rest);
         else
-            SetRotation(rotation - rest);  
+            SetRotation(rotation - rest);
     }
 
     private void CalculateNewPositions(Vector3Int rotation)
     {
-        foreach(var e in _elementsToRotate)
+        foreach (var e in _elementsToRotate)
         {
             e.Position = GetRotatedPosition(e.Position, rotation);
         }
@@ -200,20 +182,31 @@ public class CubeController : MonoBehaviour
         var sum = rotation.x + rotation.y + rotation.z;
         var turns = ((sum % 4) + 4) % 4;
 
-        for(var i = 0; i < turns; i++)
+        for (var i = 0; i < turns; i++)
         {
             if (rotation.x != 0)
-                pos = new(pos.x, size - 1 - pos.z, pos.y);
+                pos = new(pos.x, _size - 1 - pos.z, pos.y);
             else if (rotation.y != 0)
-                pos = new(pos.z, pos.y, size - 1 - pos.x);
+                pos = new(pos.z, pos.y, _size - 1 - pos.x);
             else if (rotation.z != 0)
-                pos = new(size - 1 - pos.y, pos.x, pos.z);
+                pos = new(_size - 1 - pos.y, pos.x, pos.z);
         }
 
         return pos;
     }
 
-    private Vector3 AbsSign(Vector3 vec)
+    private IEnumerable<CubeElement> GetElementsToRotate(Vector3Int elementPos, Vector3 rotationAxis)
+    {
+        foreach (var e in _elements)
+        {
+            if (Vector3.Dot(e.Position, rotationAxis) == Vector3.Dot(elementPos, rotationAxis))
+                yield return e;
+        }
+    }
+
+    #region UTILITIES
+
+    private static Vector3 AbsSign(Vector3 vec)
     {
         return new(
             vec.x == 0 ? 0 : 1,
@@ -221,7 +214,7 @@ public class CubeController : MonoBehaviour
             vec.z == 0 ? 0 : 1);
     }
 
-    Vector3 GetClosestAxis(Vector3 axis)
+    private static Vector3 GetClosestAxis(Vector3 axis)
     {
         var abs = new Vector3(
             Mathf.Abs(axis.x),
@@ -238,30 +231,7 @@ public class CubeController : MonoBehaviour
         return Vector3.forward * Mathf.Sign(axis.z);
     }
 
-    private IEnumerable<CubeElement> GetElementsToRotate(Vector3 rotationAxis)
-    {
-        foreach (var e in _elements)
-        {
-            if(Vector3.Dot(e.Position, rotationAxis) == Vector3.Dot(_elementPosition, rotationAxis))
-                yield return e;
-        }
-    }
-
-    private Vector3 GetCentre(CubeElement[] elements)
-    {
-        var centre = Vector3.zero;
-
-        foreach(var e in elements)
-        {
-            centre += e.transform.position;
-        }
-
-        centre /= elements.Length;
-
-        return centre;
-    }
-
-    private bool DirectionsMatch(Vector3 a, Vector3 b)
+    private static bool DirectionsMatch(Vector3 a, Vector3 b)
     {
         if (Mathf.Abs(a.x) != Mathf.Abs(b.x))
             return false;
@@ -275,14 +245,5 @@ public class CubeController : MonoBehaviour
         return true;
     }
 
-    private bool CubeSolved()
-    {
-        foreach(var e in _elements)
-        {
-            if (e.Position != e.OriginalPosition)
-                return false;
-        }
-
-        return true;
-    }
+    #endregion
 }
