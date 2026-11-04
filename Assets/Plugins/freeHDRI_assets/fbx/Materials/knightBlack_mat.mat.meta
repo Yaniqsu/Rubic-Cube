@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ca7797472c8c6874d821d5652781c950
+timeCreated: 1453579742
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 55174
+  packageName: Free HDRI maps
+  packageVersion: 1.0
+  assetPath: Assets/freeHDRI_assets/fbx/Materials/knightBlack_mat.mat
+  uploadId: 108477

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5a59779b28c0b734cae794410a93955b
+timeCreated: 1454385294
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 55174
+  packageName: Free HDRI maps
+  packageVersion: 1.0
+  assetPath: Assets/freeHDRI_assets/ReadMe/Linear and Gamma colour space.pdf
+  uploadId: 108477

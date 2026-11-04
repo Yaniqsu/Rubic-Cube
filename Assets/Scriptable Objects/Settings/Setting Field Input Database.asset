@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 906ec96348d05464fbebc27cb889ef1e, type: 3}
+  m_Name: Setting Field Input Database
+  m_EditorClassIdentifier: Assembly-CSharp::SettingFieldInputDatabase
+  inputControllers:
+    m_array:
+    - key: InputActionInputController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      value: {fileID: 5688031845523132059, guid: d70f4bb0f684cf14fa87ed279336f42b, type: 3}
+    - key: YNQ.Settings.InputController.FloatInputController, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      value: {fileID: 6688493040319830140, guid: 7bc88484f9bd722469e211fcdded4152, type: 3}
+    - key: YNQ.Settings.InputController.IntInputController, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      value: {fileID: 1673145277725041551, guid: 0caf02d549ce5384191276752515ee06, type: 3}
+    - key: YNQ.Settings.InputController.SwitchInputController, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      value: {fileID: 5365091887188130937, guid: c1400ce2752e180429cb8f7cc73ea5b9, type: 3}
+    - key: YNQ.Settings.InputController.Vector2InputController, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      value: {fileID: 1758721250266947297, guid: 372407f7f595bf3438dbeb3d6cd55066, type: 3}
+    - key: YNQ.Settings.InputController.WindowModeController, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      value: {fileID: -8269706408449433647, guid: c36e44f44a9c9e0469fa70aa5c267929, type: 3}

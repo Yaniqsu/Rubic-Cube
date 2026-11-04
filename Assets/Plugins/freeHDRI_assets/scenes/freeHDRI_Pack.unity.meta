@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bb7f95271f6227d46bccfdf33754fcdb
+timeCreated: 1458351809
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 55174
+  packageName: Free HDRI maps
+  packageVersion: 1.0
+  assetPath: Assets/freeHDRI_assets/scenes/freeHDRI_Pack.unity
+  uploadId: 108477

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c3b594d2b5615d343b291be628544ca1
+timeCreated: 1454385691
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 55174
+  packageName: Free HDRI maps
+  packageVersion: 1.0
+  assetPath: Assets/freeHDRI_assets/cubemaps/001_natureHDRI_LookOut.mat
+  uploadId: 108477
