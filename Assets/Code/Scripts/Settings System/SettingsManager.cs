@@ -49,13 +49,16 @@ namespace YNQ.Settings
 
 		private void ApplyChanges()
 		{
+			Debug.Log(database.IsDirty());
 			if (!database.IsDirty())
 				return;
 			
-			database.ApplyChanges();
-			SettingsSaveManager.Save(database.GetSave());
-
 			dialogBox.Show(changesAppliedContent);
+
+			dialogBox.OnPositiveButtonClicked += () => {
+				database.ApplyChanges();
+				SettingsSaveManager.Save(database.GetSave());
+			};
         }
 
 		private void Back()

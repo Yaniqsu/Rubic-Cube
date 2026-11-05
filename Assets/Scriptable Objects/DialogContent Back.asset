@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a21b404af760f0a4a96145a659221262, type: 3}
   m_Name: DialogContent Back
   m_EditorClassIdentifier: Assembly-CSharp::DialogContent
-  <Header>k__BackingField: Are you sure?
+  <Header>k__BackingField: Go back
   <Slides>k__BackingField:
-  - Are you sure you want to go back? You have unsaved changes
+  - You have unsaved changes. Would you like to save them?
   <UseNegativeButton>k__BackingField: 1
   <NextButtonText>k__BackingField: Next
   <NegativeButtonText>k__BackingField: No

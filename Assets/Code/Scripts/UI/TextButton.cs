@@ -30,7 +30,7 @@ public class TextButton : Selectable
     protected override void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
-        baseColor.a = 0.8f;
+        baseColor.a = 0.7f;
         tmp.color = baseColor;
         _baseWidth = _rectTransform.sizeDelta.x;
         SetText(text);
@@ -79,7 +79,7 @@ public class TextButton : Selectable
     public override void OnPointerExit(PointerEventData eventData)
     {
         _rectTransform.DOSizeDelta(new Vector2(_baseWidth, 30), 0.5f);
-        tmp.DOFade(0.8f, 0.5f);
+        tmp.DOFade(0.7f, 0.5f);
 
         ReformatText(defaultFormat);
     }

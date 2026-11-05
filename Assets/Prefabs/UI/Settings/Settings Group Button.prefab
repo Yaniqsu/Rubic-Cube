@@ -102,19 +102,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_fontColor.b
-      value: 0.7132075
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_fontColor.g
-      value: 0.7132075
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_fontColor.r
-      value: 0.7132075
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 3434526390
+      value: 3439329279
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -155,7 +155,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.6603774, g: 0.65165544, b: 0.65165544, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
   text: Settings Group
-  baseColor: {r: 0.7132075, g: 0.7132075, b: 0.7132075, a: 1}
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
   hoveredWidth: 0
   tmp: {fileID: 3214654637532798384}
   defaultFormat: '%T'

@@ -683,7 +683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CubeController
   spawner: {fileID: 861858835}
   rotator: {fileID: 861858837}
-  size: 3
+  size: 2
   randomizeTurns: 30
 --- !u!114 &861858837
 MonoBehaviour:
@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d701d486fc9c67f4f8fc305097a21712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CubeRotator
-  speed: 300
+  speed: 250
   errorMargin: 3
   cubeRoot: {fileID: 1734498977}
   cubeLayer:

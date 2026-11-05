@@ -45,8 +45,8 @@ public class DialogBox : MonoBehaviour
 
         Active = true;
         
-        negativeButton.GetComponent<ContentSizeFitter>().enabled = true;
-        positiveButton.GetComponent<ContentSizeFitter>().enabled = true;
+        //negativeButton.GetComponent<ContentSizeFitter>().enabled = true;
+        //positiveButton.GetComponent<ContentSizeFitter>().enabled = true;
         
         headerText.text = dialogContent.Header;
         nextButton.Text = dialogContent.NextButtonText;
@@ -67,8 +67,8 @@ public class DialogBox : MonoBehaviour
     {
         yield return null;
         
-        negativeButton.GetComponent<ContentSizeFitter>().enabled = false;
-        positiveButton.GetComponent<ContentSizeFitter>().enabled = false;
+        //negativeButton.GetComponent<ContentSizeFitter>().enabled = false;
+        //positiveButton.GetComponent<ContentSizeFitter>().enabled = false;
     }
 
     private void Hide()

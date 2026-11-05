@@ -243,8 +243,8 @@ MonoBehaviour:
   menuManager: {fileID: 7915561971604448953}
   animator: {fileID: 3405899102095711399}
   dialogBox: {fileID: 2271812465321598029}
-  applyChangesContent: {fileID: 11400000, guid: f75c0bc5e26a0ec42acb1db96666084b, type: 2}
-  changesAppliedContent: {fileID: 11400000, guid: c4eb0f099f72101478754aaab7272ac4, type: 2}
+  applyChangesContent: {fileID: 11400000, guid: c4eb0f099f72101478754aaab7272ac4, type: 2}
+  changesAppliedContent: {fileID: 11400000, guid: f75c0bc5e26a0ec42acb1db96666084b, type: 2}
   onBackStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -301,27 +301,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4646092198332198303, guid: 7096cf5fc71353f4ab18aaf393a86c0d, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4646092198332198303, guid: 7096cf5fc71353f4ab18aaf393a86c0d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4646092198332198303, guid: 7096cf5fc71353f4ab18aaf393a86c0d, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4646092198332198303, guid: 7096cf5fc71353f4ab18aaf393a86c0d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4646092198332198303, guid: 7096cf5fc71353f4ab18aaf393a86c0d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 800
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4646092198332198303, guid: 7096cf5fc71353f4ab18aaf393a86c0d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4646092198332198303, guid: 7096cf5fc71353f4ab18aaf393a86c0d, type: 3}
       propertyPath: m_LocalPosition.x

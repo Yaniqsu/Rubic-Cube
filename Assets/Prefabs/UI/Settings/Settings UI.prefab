@@ -1884,7 +1884,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7388891930824299929, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: hoveredWidth
-      value: 140
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_text
@@ -2010,7 +2010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7388891930824299929, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: hoveredWidth
-      value: 140
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_text
