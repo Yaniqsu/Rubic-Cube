@@ -54,4 +54,6 @@ public class SetupManager : MonoBehaviour, IMenuComponent
 
         SceneManager.LoadScene("Game Scene");
     }
+
+    public bool CanGoBack() => true;
 }
