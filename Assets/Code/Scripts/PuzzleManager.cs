@@ -8,8 +8,15 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private MenuInputController menuInputController;
     [SerializeField] private GameWonManager gameWonManager;
 
+    private GameStats _gameStats;
+
     private void Start()
     {
+        _gameStats = new GameStats()
+        {
+            size = GameRequest.cubeSize
+        };
+        
         cubeController.Initialize();
         environmentManager.Initialize();
 
@@ -21,7 +28,9 @@ public class PuzzleManager : MonoBehaviour
 
     private void OnCubeSolved()
     {
+        gameWonManager.DisplayStats(_gameStats);
         gameWonManager.Show();
+
         menuInputController.DisableInput();
     }
 }
