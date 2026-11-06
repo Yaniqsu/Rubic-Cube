@@ -3,9 +3,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class InputController : MonoBehaviour
+public class InputController : AInputController
 {
-    [SerializeField] private InputActionAsset inputActions;
     [SerializeField] private string rotateName;
     [SerializeField] private string mouseDelta;
     [SerializeField] private string interactName;
@@ -16,19 +15,8 @@ public class InputController : MonoBehaviour
     public UnityEvent<float> onScroll;
     public UnityEvent onMoveStart;
     public UnityEvent onMoveEnd;
-    private InputActionMap _map;
     private bool _rpm;
     private bool _lpm;
-
-    private void OnEnable()
-    {
-        EnableInput();   
-    }
-
-    private void OnDestroy()
-    {
-        DisableInput();
-    }
 
     private void Update()
     {
@@ -37,32 +25,12 @@ public class InputController : MonoBehaviour
         CheckScroll();
     }
 
-    private void EnableInput()
+    protected override void EnableInputActions()
     {
-        inputActions.Enable();
-
-        _map = inputActions.FindActionMap("Camera");
-
-        _map[rotateName].started += CallOnRPMDown;
-        _map[rotateName].canceled += CallOnRPMUp;
-
-        _map[interactName].started += CallOnInteractStart;
-        _map[interactName].canceled += CallOnInteractEnd;
+        RegisterInputAction(rotateName, _ => _rpm = true, _ => _rpm = false);
+        RegisterInputAction(interactName, CallOnInteractStart, CallOnInteractEnd);
     }
 
-    private void DisableInput()
-    {
-        inputActions.Disable();
-
-        _map[rotateName].started -= CallOnRPMDown;
-        _map[rotateName].canceled -= CallOnRPMUp;
-
-        _map[interactName].started -= CallOnInteractStart;
-        _map[interactName].canceled -= CallOnInteractEnd;
-    }
-
-    private void CallOnRPMDown(InputAction.CallbackContext context) => _rpm = true;
-    private void CallOnRPMUp(InputAction.CallbackContext context) => _rpm = false;
     private void CallOnInteractStart(InputAction.CallbackContext context)
     {
         _lpm = true;
@@ -76,7 +44,7 @@ public class InputController : MonoBehaviour
 
     private void CheckRotation()
     {
-        var val = _map[mouseDelta].ReadValue<Vector2>();
+        var val = Map[mouseDelta].ReadValue<Vector2>();
 
         if (_rpm)
         {
@@ -91,7 +59,7 @@ public class InputController : MonoBehaviour
 
     private void CheckScroll()
     {
-        var val = _map[scrollName].ReadValue<Vector2>();
+        var val = Map[scrollName].ReadValue<Vector2>();
 
         onScroll.Invoke(val.y);
     }
