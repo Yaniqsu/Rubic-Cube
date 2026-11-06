@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YNQ.InputField;
 
-public class SetupManager : MonoBehaviour
+public class SetupManager : MonoBehaviour, IMenuComponent
 {
     [SerializeField] private Canvas setupCanvas;
     [SerializeField] private RectTransform setupObject;
@@ -24,7 +24,7 @@ public class SetupManager : MonoBehaviour
     }
 
 
-    public void ShowSetup()
+    public void Show()
     {
         setupCanvas.enabled = true;
 
@@ -39,7 +39,7 @@ public class SetupManager : MonoBehaviour
         cubeSize.SetValue(3);
     }
 
-    public void Hide()
+    public void Back()
     {
         objectCanvasGroup.DOFade(0, 0.5f);
         blocker.DOFade(0, 0.5f);
