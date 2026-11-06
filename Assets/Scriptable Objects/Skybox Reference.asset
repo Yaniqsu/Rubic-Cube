@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d30267441fa2d44ebfffc0a90263352, type: 3}
+  m_Name: Skybox Reference
+  m_EditorClassIdentifier: Assembly-CSharp::SkyboxReference
+  references:
+  - name: Stars 1
+    material: {fileID: 2100000, guid: 76dbf65e9ef4a3b48b22f2af8d123ec3, type: 2}
+  - name: Stars 2
+    material: {fileID: 2100000, guid: 0537c56e272304446aa9d7522ef72a09, type: 2}
+  - name: Stars 3
+    material: {fileID: 2100000, guid: a053223c383b7ae4f92f53709ea0b19a, type: 2}
+  - name: Stars 4
+    material: {fileID: 2100000, guid: 0d274bfd49b02044eaa5725529438f75, type: 2}
+  - name: Mounstains 1
+    material: {fileID: 2100000, guid: a7e6821fff88174429eeb08f4b74c1da, type: 2}
+  - name: Moutains 2
+    material: {fileID: 2100000, guid: ed215012dba78aa429aef3b40ba589e9, type: 2}
+  - name: Mars 1
+    material: {fileID: 2100000, guid: 28a02b187e7552e4ea411473b627aff6, type: 2}
+  - name: Ocean 1
+    material: {fileID: 2100000, guid: 45a9a454d578e1c49997bb81cd2d56f1, type: 2}
+  - name: Ocean 2
+    material: {fileID: 2100000, guid: b85b90637cdc7c74e9228cd89e2a8c87, type: 2}

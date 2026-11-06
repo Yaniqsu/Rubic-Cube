@@ -124,6 +124,78 @@ PrefabInstance:
       propertyPath: m_Name
       value: InputField Spinner Text
       objectReference: {fileID: 0}
+    - target: {fileID: 5285209236544810861, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: baseColor.a
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5285209236544810861, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5285209236544810861, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5285209236544810861, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 717874119993648593}
+    - target: {fileID: 5285209236544810861, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5285209236544810861, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Next
+      objectReference: {fileID: 0}
+    - target: {fileID: 5285209236544810861, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: YNQ.InputField.InputField_TextSpinner, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5285209236544810861, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576071977117270786, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: baseColor.a
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576071977117270786, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576071977117270786, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576071977117270786, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 717874119993648593}
+    - target: {fileID: 5576071977117270786, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576071977117270786, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Previous
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576071977117270786, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: YNQ.InputField.InputField_TextSpinner, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576071977117270786, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5912872188029327701, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: m_fontColor.a
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5912872188029327701, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 3003121663
+      objectReference: {fileID: 0}
     - target: {fileID: 6138490518327569858, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -147,6 +219,14 @@ PrefabInstance:
     - target: {fileID: 6138490518327569858, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6211668721041044794, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: m_fontColor.a
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6211668721041044794, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 3003121663
       objectReference: {fileID: 0}
     - target: {fileID: 7104132817779364861, guid: e971a590c12cbc94cab88ca1af02e801, type: 3}
       propertyPath: m_text
