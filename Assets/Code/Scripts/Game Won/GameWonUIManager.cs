@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using TMPro;
@@ -47,9 +48,12 @@ public class GameWonUIManager : MonoBehaviour
 
     public void DisplayStats(GameStats stats)
     {
+        var timespan = TimeSpan.FromSeconds(stats.time);
+        var dateTime = new DateTime(timespan.Ticks);
+
         summaryText.text = "" +
             $"Cube Size: {stats.size}\n" +
-            $"Time: {stats.time}\n" +
+            $"Time: {dateTime:mm:ss}\n" +
             $"Total moves: {stats.moves}";
     }
 

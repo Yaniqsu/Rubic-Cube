@@ -12,7 +12,7 @@ public class GameWonManager : MonoBehaviour
 
     public void DisplayStats(GameStats stats)
     {
-
+        uiManager.DisplayStats(stats);
     }
     
     public void GoToMainMenu()

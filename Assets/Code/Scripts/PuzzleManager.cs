@@ -23,11 +23,17 @@ public class PuzzleManager : MonoBehaviour
         cameraController.ZoomMin = cubeController.Size;
         cameraController.ZoomMax = cubeController.Size * 4;
 
+        cubeController.onMove += () => _gameStats.moves++;
         cubeController.onCubeSolved += OnCubeSolved;
+
+        TimeCounter.ResetTimer();
     }
 
     private void OnCubeSolved()
     {
+        TimeCounter.StopCounting();
+        _gameStats.time = TimeCounter.GetTime();
+        
         gameWonManager.DisplayStats(_gameStats);
         gameWonManager.Show();
 

@@ -26,6 +26,7 @@ public class CubeRotator : MonoBehaviour
     private CubeElement[] _elementsToRotate;
 
     public event Action onRotationEnd;
+    public event Action onMove;
 
     private void Awake()
     {
@@ -79,6 +80,16 @@ public class CubeRotator : MonoBehaviour
 
     public void EndRotation()
     {
+        if (_totalRotation.magnitude > 90)
+            onMove?.Invoke();
+        
+        CleanAfterRotation();
+
+        onRotationEnd?.Invoke();
+    }
+
+    private void CleanAfterRotation()
+    {
         SnapRotation();
 
         foreach (var e in _elementsToRotate)
@@ -96,8 +107,6 @@ public class CubeRotator : MonoBehaviour
         _setRotationAxis = Vector3.zero;
         _rotating = false;
         _selectedCubeElement = null;
-
-        onRotationEnd?.Invoke();
     }
 
     public void ForceRotation(Vector3Int elementPos, Vector3 axis)
@@ -114,7 +123,7 @@ public class CubeRotator : MonoBehaviour
 
         RotateElements(axis);
 
-        EndRotation();
+        CleanAfterRotation();
     }
 
     #endregion

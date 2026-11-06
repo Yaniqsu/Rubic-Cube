@@ -15,6 +15,7 @@ public class CubeController : MonoBehaviour
     public int Size { get; private set; }
 
     public event Action onCubeSolved;
+    public event Action onMove;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class CubeController : MonoBehaviour
         
         _elements = spawner.SpawnCube(Size).ToArray();
         rotator.Initialize(_elements, Size);
+        rotator.onMove += () => onMove?.Invoke();
         
         Randomize(randomizeTurns);
     }
