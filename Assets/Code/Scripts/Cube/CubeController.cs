@@ -7,12 +7,12 @@ public class CubeController : MonoBehaviour
 {
     [SerializeField] private CubeSpawner spawner;
     [SerializeField] private CubeRotator rotator;
-    [SerializeField] private int size;
+    [SerializeField] private int defaultSize;
     [SerializeField] private int randomizeTurns;
 
     private CubeElement[] _elements;
 
-    public int Size => size;
+    public int Size { get; private set; }
 
     public event Action onCubeSolved;
 
@@ -23,8 +23,11 @@ public class CubeController : MonoBehaviour
 
     public void Initialize()
     {
-        _elements = spawner.SpawnCube(size).ToArray();
-        rotator.Initialize(_elements, size);
+        Size = GameRequest.cubeSize;
+        if (Size == 0) Size = defaultSize;
+        
+        _elements = spawner.SpawnCube(Size).ToArray();
+        rotator.Initialize(_elements, Size);
         
         Randomize(randomizeTurns);
     }
@@ -40,9 +43,9 @@ public class CubeController : MonoBehaviour
         for (var i = 0; i < turns; i++)
         {
             var elementPos = new Vector3Int(
-                Random.Range(0, size),
-                Random.Range(0, size),
-                Random.Range(0, size));
+                Random.Range(0, Size),
+                Random.Range(0, Size),
+                Random.Range(0, Size));
 
             var rotation = Random.Range(1, 4) * (Random.Range(0, 2) == 0 ? 1 : -1) * 90;
             var axis = Random.Range(0, 3) switch

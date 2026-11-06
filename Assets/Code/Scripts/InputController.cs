@@ -94,6 +94,5 @@ public class InputController : MonoBehaviour
         var val = _map[scrollName].ReadValue<Vector2>();
 
         onScroll.Invoke(val.y);
-        Debug.Log(val.y);
     }
 }
