@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class TextButton : Selectable
 {
+    [Space(20)]
     [SerializeField] private string text;
     [SerializeField] protected Color baseColor;
     [SerializeField] private float hoveredWidth;
@@ -70,16 +71,16 @@ public class TextButton : Selectable
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        _rectTransform.DOSizeDelta(new Vector2(hoveredWidth, 30), 0.5f);
-        tmp.DOFade(1, 0.5f);
+        _rectTransform.DOSizeDelta(new Vector2(hoveredWidth, 30), 0.5f).SetUpdate(true);
+        tmp.DOFade(1, 0.5f).SetUpdate(true);
 
         ReformatText(hoveredFormat);
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        _rectTransform.DOSizeDelta(new Vector2(_baseWidth, 30), 0.5f);
-        tmp.DOFade(0.7f, 0.5f);
+        _rectTransform.DOSizeDelta(new Vector2(_baseWidth, 30), 0.5f).SetUpdate(true);
+        tmp.DOFade(0.7f, 0.5f).SetUpdate(true);
 
         ReformatText(defaultFormat);
     }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AdaptivePerformance;
 using UnityEngine.InputSystem;
 
 public abstract class AInputController : MonoBehaviour
@@ -39,14 +38,14 @@ public abstract class AInputController : MonoBehaviour
         DisableInput();
     }
 
-    private void EnableInput()
+    public void EnableInput()
     {
         Map.Enable();
         
         EnableInputActions();
     }
 
-    private void DisableInput()
+    public void DisableInput()
     {
         Map.Disable();
 

@@ -1,13 +1,11 @@
 using UnityEngine;
 using YNQ.Settings;
 
-public class MainMenuManager : MonoBehaviour
+public class MainMenuManager : AMenuManager
 {
     [SerializeField] private SettingsManager settingsManager;
     [SerializeField] private SetupManager setupManager;
 
-    private IMenuComponent _currentMenuComponent;
-    
     public void ShowSettingsMenu()
     {
         RegisterMenuComponent(settingsManager);
@@ -17,26 +15,11 @@ public class MainMenuManager : MonoBehaviour
     {
         RegisterMenuComponent(setupManager);
     }
-    
-    public void Back()
-    {
-        if(_currentMenuComponent != null)
-            _currentMenuComponent.Back();
 
-        _currentMenuComponent = null;
-    }
+    protected override void OnBack() { }
     
     public void QuitGame()
     {
         Application.Quit();
-    }
-
-    private void RegisterMenuComponent(IMenuComponent menuComponent)
-    {
-        if (_currentMenuComponent != null)
-            _currentMenuComponent.Back();
-
-        _currentMenuComponent = menuComponent;
-        _currentMenuComponent.Show();
     }
 }

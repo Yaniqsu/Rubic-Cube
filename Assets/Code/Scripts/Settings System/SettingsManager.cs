@@ -43,13 +43,13 @@ namespace YNQ.Settings
 
 		private void Hide()
 		{
+			Debug.Log("Hide");
 			menuManager.Hide();
 			onBackStarted.Invoke();
 		}
 
 		private void ApplyChanges()
 		{
-			Debug.Log(database.IsDirty());
 			if (!database.IsDirty())
 				return;
 			
@@ -89,5 +89,6 @@ namespace YNQ.Settings
         }
 
         void IMenuComponent.Back() => Back();
+		public bool CanGoBack() => !animator.Animating;
     } 
 }
