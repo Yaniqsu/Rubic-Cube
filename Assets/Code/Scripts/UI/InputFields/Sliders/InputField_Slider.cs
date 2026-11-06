@@ -22,6 +22,9 @@ namespace YNQ.InputField
 		private Coroutine _waitForMouseUpCoroutine;
 		private bool _waiting;
 
+		public float FloatValue => value;
+		public int IntValue => Mathf.RoundToInt(value);
+
         protected override void OnValidate()
         {
             base.OnValidate();
@@ -64,6 +67,7 @@ namespace YNQ.InputField
 		{
 			if(Application.isPlaying)
 				TakeInputSelection();
+			this.value = value;
 			if(valueDisplay) valueDisplay.text = $"{value}";
 			NotifyValueChanged(value);
 		}

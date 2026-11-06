@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.29487357, g: 0.44472566, b: 0.6226415, a: 1}
+  m_Color: {r: 0.3433962, g: 0.3433962, b: 0.3433962, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.29487357, g: 0.44472566, b: 0.6226415, a: 1}
+  m_Color: {r: 0.2981131, g: 0.2981131, b: 0.2981131, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -388,8 +388,8 @@ MonoBehaviour:
   defaultValue: 0
   offPos: {x: -14, y: 0}
   onPos: {x: 14, y: 0}
-  offColor: {r: 0.29487357, g: 0.44472566, b: 0.6226415, a: 1}
-  onColor: {r: 0.41696683, g: 0.6949065, b: 0.90943396, a: 1}
+  offColor: {r: 0.2981131, g: 0.2981131, b: 0.2981131, a: 1}
+  onColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
   OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
