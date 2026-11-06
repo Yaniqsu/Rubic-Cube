@@ -65,7 +65,7 @@ namespace YNQ.InputField
 
 		private void UpdateValue(float value)
 		{
-			if(Application.isPlaying)
+			if(Application.isPlaying && gameObject.activeInHierarchy)
 				TakeInputSelection();
 			this.value = value;
 			if(valueDisplay) valueDisplay.text = $"{value}";
