@@ -17,7 +17,7 @@ public class PuzzleManager : MonoBehaviour
             size = GameRequest.cubeSize
         };
         
-        cubeController.Initialize();
+        cubeController.Initialize(GameRequest.randomizeTurns);
         environmentManager.Initialize();
 
         cameraController.ZoomMin = cubeController.Size;

@@ -90,6 +90,9 @@ public class CubeRotator : MonoBehaviour
 
     private void CleanAfterRotation()
     {
+        if (_elementsToRotate.Length == 0)
+            return;
+        
         SnapRotation();
 
         foreach (var e in _elementsToRotate)

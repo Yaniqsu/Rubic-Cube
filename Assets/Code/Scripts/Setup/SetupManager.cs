@@ -12,15 +12,22 @@ public class SetupManager : MonoBehaviour, IMenuComponent
     [SerializeField] private CanvasGroup objectCanvasGroup;
     [SerializeField] private Image blocker;
     [SerializeField] private SkyboxReference skyboxReference;
+    [SerializeField] private DifficultyPresets difficultyPresets;
+    [SerializeField] private GameObject solvedDifficultyInfo;
 
     [Space]
     [SerializeField] private InputField_Slider cubeSize;
     [SerializeField] private InputField_Switch speedrunMode;
     [SerializeField] private InputField_TextSpinner environment;
+    [SerializeField] private InputField_TextSpinner difficultyPresetsInputField;
 
     private void Start()
     {
         environment.SetValues(skyboxReference.Reference.Select(r => r.name).ToArray());
+        difficultyPresetsInputField.SetValues(difficultyPresets.GetNames());
+
+        difficultyPresetsInputField.SetIndex(difficultyPresets.GetNames().Length - 1);
+        difficultyPresetsInputField.OnValueChanged.AddListener(index => solvedDifficultyInfo.SetActive(index == 0));
     }
 
 
@@ -51,6 +58,7 @@ public class SetupManager : MonoBehaviour, IMenuComponent
         GameRequest.cubeSize = cubeSize.IntValue;
         GameRequest.speedunMode = speedrunMode.Value;
         GameRequest.environmentIndex = environment.Value;
+        GameRequest.randomizeTurns = difficultyPresets.GetTurns(difficultyPresetsInputField.Value);
 
         SceneManager.LoadScene("Game Scene");
     }

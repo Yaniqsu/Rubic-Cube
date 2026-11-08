@@ -17,21 +17,18 @@ public class CubeController : MonoBehaviour
     public event Action onCubeSolved;
     public event Action onMove;
 
-    private void Awake()
-    {
-        rotator.onRotationEnd += OnRotationEnd;
-    }
-
-    public void Initialize()
+    public void Initialize(int randomizedTurns)
     {
         Size = GameRequest.cubeSize;
         if (Size == 0) Size = defaultSize;
         
         _elements = spawner.SpawnCube(Size).ToArray();
+
         rotator.Initialize(_elements, Size);
         rotator.onMove += () => onMove?.Invoke();
+        if (randomizedTurns > 0) rotator.onRotationEnd += OnRotationEnd;
         
-        Randomize(randomizeTurns);
+        Randomize(randomizedTurns == 0 ? randomizeTurns : randomizedTurns);
     }
 
     private void OnRotationEnd()
