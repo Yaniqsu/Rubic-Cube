@@ -88,6 +88,24 @@ public class CubeRotator : MonoBehaviour
         onRotationEnd?.Invoke();
     }
 
+    public void ForceRotation(Vector3Int elementPos, Vector3 axis)
+    {
+        ResetRotationVariables();
+
+        _elementsToRotate = GetElementsToRotate(elementPos, axis).ToArray();
+
+        foreach (var e in _elementsToRotate)
+        {
+            e.transform.SetParent(pivot);
+        }
+
+        RotateElements(axis);
+
+        CleanAfterRotation();
+    }
+
+    #endregion
+
     private void CleanAfterRotation()
     {
         if (_elementsToRotate.Length == 0)
@@ -112,32 +130,20 @@ public class CubeRotator : MonoBehaviour
         _selectedCubeElement = null;
     }
 
-    public void ForceRotation(Vector3Int elementPos, Vector3 axis)
-    {
-        pivot.localEulerAngles = Vector3.zero;
-        _totalRotation = Vector3.zero;
-
-        _elementsToRotate = GetElementsToRotate(elementPos, axis).ToArray();
-
-        foreach (var e in _elementsToRotate)
-        {
-            e.transform.SetParent(pivot);
-        }
-
-        RotateElements(axis);
-
-        CleanAfterRotation();
-    }
-
-    #endregion
-
     private void InitializeRotation(RaycastHit hitInfo)
     {
         hitInfo.collider.gameObject.TryGetComponent(out _selectedCubeElement);
-        _totalRotation = Vector3.zero;
         _elementPosition = _selectedCubeElement.Position;
         _elementFaceNormal = cubeRoot.InverseTransformDirection(hitInfo.normal).normalized;
         _rotating = true;
+
+        ResetRotationVariables();
+    }
+
+    private void ResetRotationVariables()
+    {
+        _totalRotation = Vector3.zero;
+        pivot.transform.localEulerAngles = Vector3.zero;
     }
 
     private void ChooseRotationAxis(Vector3 axis)
@@ -158,27 +164,22 @@ public class CubeRotator : MonoBehaviour
 
     private void SetRotation(Vector3 rotationEuler)
     {
-        var diff = pivot.transform.localEulerAngles - rotationEuler;
-
         pivot.transform.localEulerAngles = rotationEuler;
 
-        _totalRotation += diff;
+        _totalRotation = rotationEuler;
     }
 
     private void SnapRotation()
     {
-        var rotation = pivot.localEulerAngles;
+        var rotation = NormalizeVector(_totalRotation);
 
-        var rest = new Vector3(
-            Mathf.Abs(rotation.x) % 90,
-            Mathf.Abs(rotation.y) % 90,
-            Mathf.Abs(rotation.z) % 90);
+        var snappedRotation = new Vector3(
+            Mathf.Round(rotation.x / 90f) * 90f,
+            Mathf.Round(rotation.y / 90f) * 90f,
+            Mathf.Round(rotation.z / 90f) * 90f
+        );
 
-
-        if (rest.magnitude > 45)
-            SetRotation(rotation + (AbsSign(rest) * 90) - rest);
-        else
-            SetRotation(rotation - rest);
+        SetRotation(snappedRotation);
     }
 
     private void CalculateNewPositions(Vector3Int rotation)
@@ -217,6 +218,14 @@ public class CubeRotator : MonoBehaviour
     }
 
     #region UTILITIES
+
+    private static Vector3 NormalizeVector(Vector3 vector)
+    {
+        return new Vector3(
+            vector.x > 180f ? vector.x - 360f : vector.x,
+            vector.y > 180f ? vector.y - 360f : vector.y,
+            vector.z > 180f ? vector.z - 360f : vector.z);
+    }
 
     private static Vector3 AbsSign(Vector3 vec)
     {
