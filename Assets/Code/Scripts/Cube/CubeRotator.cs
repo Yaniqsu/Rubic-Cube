@@ -23,7 +23,7 @@ public class CubeRotator : MonoBehaviour
     private Vector3 _elementFaceNormal;
     private Vector3 _totalRotation;
 
-    private CubeElement[] _elementsToRotate;
+    private CubeElement[] _elementsToRotate = Array.Empty<CubeElement>();
 
     public event Action onRotationEnd;
     public event Action onMove;
@@ -99,7 +99,7 @@ public class CubeRotator : MonoBehaviour
             e.transform.SetParent(pivot);
         }
 
-        RotateElements(axis);
+        SetRotation(axis);
 
         CleanAfterRotation();
     }

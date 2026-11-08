@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PuzzleManager : MonoBehaviour
@@ -16,7 +17,19 @@ public class PuzzleManager : MonoBehaviour
         {
             size = GameRequest.cubeSize
         };
-        
+
+        StartCoroutine(DelayInitialization());
+    }
+
+    private IEnumerator DelayInitialization()
+    {
+        yield return null;
+
+        Initialize();
+    }
+    
+    private void Initialize()
+    {
         cubeController.Initialize(GameRequest.randomizeTurns);
         environmentManager.Initialize();
 

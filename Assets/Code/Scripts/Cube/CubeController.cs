@@ -27,8 +27,6 @@ public class CubeController : MonoBehaviour
         _elements = spawner.SpawnCube(Size).ToArray();
 
         rotator.Initialize(_elements, Size);
-        Randomize(randomizeTurns);
-        
         rotator.onMove += () => onMove?.Invoke();
         if (randomizedTurns > 0) rotator.onRotationEnd += OnRotationEnd;
         
@@ -76,7 +74,6 @@ public class CubeController : MonoBehaviour
 
     private void OnCubeSolved()
     {
-        Debug.Log("Solved");
         onCubeSolved?.Invoke();
     }
 }
