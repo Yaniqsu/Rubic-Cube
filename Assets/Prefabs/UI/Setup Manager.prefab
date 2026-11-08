@@ -688,8 +688,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This mode works as a sandbox, in which you cannot solve the cube there
-    have to go back to the main menu in order to start another game.
+  m_text: This mode works as a sandbox, in which you cannot solve the cube and have
+    to go back to the main menu in order to start another game.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 82b9f6cbf8fe1b94db95b6a3b2cb5688, type: 2}
   m_sharedMaterial: {fileID: -167541241760548594, guid: 82b9f6cbf8fe1b94db95b6a3b2cb5688, type: 2}
