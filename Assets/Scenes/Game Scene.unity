@@ -847,7 +847,7 @@ MonoBehaviour:
   spawner: {fileID: 861858835}
   rotator: {fileID: 861858837}
   defaultSize: 3
-  randomizeTurns: 90000
+  randomizeTurns: 0
 --- !u!114 &861858837
 MonoBehaviour:
   m_ObjectHideFlags: 0
