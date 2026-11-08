@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
+using TMPro;
 
 public class CubeController : MonoBehaviour
 {
@@ -11,11 +12,13 @@ public class CubeController : MonoBehaviour
     [SerializeField] private int randomizeTurns;
 
     private CubeElement[] _elements;
+    private bool _preSetting;
 
     public int Size { get; private set; }
 
     public event Action onCubeSolved;
     public event Action onMove;
+
 
     private void Awake()
     {
@@ -29,9 +32,9 @@ public class CubeController : MonoBehaviour
         
         _elements = spawner.SpawnCube(Size).ToArray();
         rotator.Initialize(_elements, Size);
-        rotator.onMove += () => onMove?.Invoke();
-        
         Randomize(randomizeTurns);
+        
+        rotator.onMove += () => onMove?.Invoke();
     }
 
     private void OnRotationEnd()
