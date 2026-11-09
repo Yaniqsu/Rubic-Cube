@@ -3,6 +3,6 @@ using UnityEngine;
 public class GameStats
 {
     public int size;
-    public float time;
-    public int moves;
+    public EventData<float> time = new(0);
+    public EventData<int> moves = new(0);
 }

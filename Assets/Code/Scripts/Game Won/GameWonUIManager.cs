@@ -48,13 +48,13 @@ public class GameWonUIManager : MonoBehaviour
 
     public void DisplayStats(GameStats stats)
     {
-        var timespan = TimeSpan.FromSeconds(stats.time);
+        var timespan = TimeSpan.FromSeconds(stats.time.Value);
         var dateTime = new DateTime(timespan.Ticks);
 
         summaryText.text = "" +
             $"Cube Size: {stats.size}\n" +
             $"Time: {dateTime:mm:ss}\n" +
-            $"Total moves: {stats.moves}";
+            $"Total moves: {stats.moves.Value}";
     }
 
     private IEnumerator ShowSequence()

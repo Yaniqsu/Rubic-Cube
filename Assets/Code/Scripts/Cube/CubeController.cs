@@ -2,9 +2,7 @@ using System.Linq;
 using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
-using TMPro;
 using System.Collections.Generic;
-using System.Collections;
 
 public class CubeController : MonoBehaviour
 {

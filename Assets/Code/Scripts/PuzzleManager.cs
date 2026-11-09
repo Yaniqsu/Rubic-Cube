@@ -8,6 +8,7 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private EnvironmentManager environmentManager;
     [SerializeField] private MenuInputController menuInputController;
     [SerializeField] private GameWonManager gameWonManager;
+    [SerializeField] private SpeedRunStatsManager speedRunStatsManager;
 
     private GameStats _gameStats;
 
@@ -36,9 +37,11 @@ public class PuzzleManager : MonoBehaviour
         cameraController.ZoomMin = cubeController.Size;
         cameraController.ZoomMax = cubeController.Size * 4;
 
-        cubeController.onMove += () => _gameStats.moves++;
-        cubeController.onUndo += () => _gameStats.moves--;
+        cubeController.onMove += () => _gameStats.moves.Value++;
+        cubeController.onUndo += () => _gameStats.moves.Value--;
         cubeController.onCubeSolved += OnCubeSolved;
+
+        if (GameRequest.speedunMode) speedRunStatsManager.Initialize(_gameStats.moves);
 
         TimeCounter.ResetTimer();
     }
@@ -46,7 +49,9 @@ public class PuzzleManager : MonoBehaviour
     private void OnCubeSolved()
     {
         TimeCounter.StopCounting();
-        _gameStats.time = TimeCounter.GetTime();
+        _gameStats.time.Value = TimeCounter.GetTime();
+
+        speedRunStatsManager.Hide();
         
         gameWonManager.DisplayStats(_gameStats);
         gameWonManager.Show();
