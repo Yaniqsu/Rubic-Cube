@@ -12,6 +12,9 @@ public class SpeedRunStatsManager : MonoBehaviour
 
     public void Initialize(EventData<int> movesData)
     {
+        SetMoves(0);
+        SetTime(0);
+        
         movesData.OnValueChanged += SetMoves;
 
         TimeCounter.OnTick += SetTime;
