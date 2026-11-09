@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -103,6 +104,11 @@ public class CubeRotator : MonoBehaviour
         SetRotation(axis);
 
         CleanAfterRotation();
+    }
+
+    public void StartSpinning()
+    {
+        StartCoroutine(HandleSpinning());
     }
 
     #endregion
@@ -215,6 +221,18 @@ public class CubeRotator : MonoBehaviour
         {
             if (Vector3.Dot(e.Position, rotationAxis) == Vector3.Dot(elementPos, rotationAxis))
                 yield return e;
+        }
+    }
+
+    private IEnumerator HandleSpinning()
+    {
+        var speed= 0f;
+        var axis = cubeRoot.InverseTransformDirection(Vector3.down);
+        while(true)
+        {
+            speed = Mathf.MoveTowards(speed, 20, 5 * Time.deltaTime);
+            cubeRoot.Rotate(speed * Time.deltaTime * axis);
+            yield return null;
         }
     }
 
