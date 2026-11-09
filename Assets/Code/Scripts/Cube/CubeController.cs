@@ -56,6 +56,8 @@ public class CubeController : MonoBehaviour
 
     private void Randomize(int turns)
     {
+        var axises = new List<Vector3>(new[] { Vector3.right, Vector3.up, Vector3.forward });
+        
         for (var i = 0; i < turns; i++)
         {
             var elementPos = new Vector3Int(
@@ -64,13 +66,10 @@ public class CubeController : MonoBehaviour
                 Random.Range(0, Size));
 
             var rotation = Random.Range(1, 4) * (Random.Range(0, 2) == 0 ? 1 : -1) * 90;
-            var axis = Random.Range(0, 3) switch
-            {
-                0 => Vector3.right,
-                1 => Vector3.up,
-                2 => Vector3.forward,
-                _ => Vector3.zero
-            };
+            var maxRange = i == 0 ? 3 : 2;
+            var axis = axises[Random.Range(0, maxRange)];
+            axises.Remove(axis);
+            axises.Add(axis);
 
             rotator.ForceRotation(elementPos, rotation * axis);
         }
