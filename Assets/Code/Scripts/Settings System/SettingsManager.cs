@@ -43,7 +43,6 @@ namespace YNQ.Settings
 
 		private void Hide()
 		{
-			Debug.Log("Hide");
 			menuManager.Hide();
 			onBackStarted.Invoke();
 		}

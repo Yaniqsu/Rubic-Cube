@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
 using TMPro;
+using System.Collections.Generic;
 
 public class CubeController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class CubeController : MonoBehaviour
 
     private CubeElement[] _elements;
     private bool _preSetting;
+    private readonly Stack<CubeRotationData> _rotationHistory = new();
 
     public int Size { get; private set; }
 
@@ -27,10 +29,20 @@ public class CubeController : MonoBehaviour
         _elements = spawner.SpawnCube(Size).ToArray();
 
         rotator.Initialize(_elements, Size);
-        rotator.onMove += () => onMove?.Invoke();
+        rotator.onMove += OnMove;
         if (randomizedTurns > 0) rotator.onRotationEnd += OnRotationEnd;
         
         Randomize(randomizedTurns == 0 ? randomizeTurns : randomizedTurns);
+    }
+
+    public void Back()
+    {
+        if (_rotationHistory.Count == 0)
+            return;
+
+        var data = _rotationHistory.Pop();
+
+        rotator.ForceRotation(data.elementPos, -data.axis);
     }
 
     private void OnRotationEnd()
@@ -75,5 +87,12 @@ public class CubeController : MonoBehaviour
     private void OnCubeSolved()
     {
         onCubeSolved?.Invoke();
+    }
+
+    private void OnMove(CubeRotationData rotationData)
+    {
+        _rotationHistory.Push(rotationData);
+        
+        onMove?.Invoke();
     }
 }

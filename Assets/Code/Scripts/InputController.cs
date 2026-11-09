@@ -9,12 +9,14 @@ public class InputController : AInputController
     [SerializeField] private string mouseDelta;
     [SerializeField] private string interactName;
     [SerializeField] private string scrollName;
+    [SerializeField] private string undoName;
 
     public UnityEvent<Vector2> onRotateObject;
     public UnityEvent<Vector2> onMove;
     public UnityEvent<float> onScroll;
     public UnityEvent onMoveStart;
     public UnityEvent onMoveEnd;
+    public UnityEvent onUndo;
     private bool _rpm;
     private bool _lpm;
 
@@ -29,6 +31,7 @@ public class InputController : AInputController
     {
         RegisterInputAction(rotateName, _ => _rpm = true, _ => _rpm = false);
         RegisterInputAction(interactName, CallOnInteractStart, CallOnInteractEnd);
+        RegisterInputAction(undoName, _ => onUndo.Invoke());
     }
 
     private void CallOnInteractStart(InputAction.CallbackContext context)

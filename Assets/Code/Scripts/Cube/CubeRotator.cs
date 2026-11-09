@@ -26,7 +26,7 @@ public class CubeRotator : MonoBehaviour
     private CubeElement[] _elementsToRotate = Array.Empty<CubeElement>();
 
     public event Action onRotationEnd;
-    public event Action onMove;
+    public event Action<CubeRotationData> onMove;
 
     private void Awake()
     {
@@ -80,10 +80,11 @@ public class CubeRotator : MonoBehaviour
 
     public void EndRotation()
     {
-        if (_totalRotation.magnitude > 90)
-            onMove?.Invoke();
-        
         CleanAfterRotation();
+
+        if (_totalRotation.magnitude >= 90)
+            onMove?.Invoke(new CubeRotationData() { elementPos = _elementPosition, axis = _totalRotation });
+        
 
         onRotationEnd?.Invoke();
     }
