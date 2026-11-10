@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CubeRotator : MonoBehaviour
@@ -85,8 +86,8 @@ public class CubeRotator : MonoBehaviour
 
         if (_totalRotation.magnitude >= 90)
             onMove?.Invoke(new CubeRotationData() { elementPos = _elementPosition, axis = _totalRotation });
-        
 
+        _totalRotation = Vector3.zero;
         onRotationEnd?.Invoke();
     }
 
@@ -104,6 +105,8 @@ public class CubeRotator : MonoBehaviour
         SetRotation(axis);
 
         CleanAfterRotation();
+
+        _totalRotation = Vector3.zero;
     }
 
     public void StartSpinning()
@@ -117,8 +120,9 @@ public class CubeRotator : MonoBehaviour
     {
         if (_elementsToRotate.Length == 0)
             return;
-        
-        SnapRotation();
+
+        if(_totalRotation.magnitude > 0)
+            SnapRotation();
 
         foreach (var e in _elementsToRotate)
             e.transform.SetParent(cubeRoot);
@@ -143,6 +147,7 @@ public class CubeRotator : MonoBehaviour
         _elementPosition = _selectedCubeElement.Position;
         _elementFaceNormal = cubeRoot.InverseTransformDirection(hitInfo.normal).normalized;
         _rotating = true;
+        _totalRotation = Vector3.zero;
 
         ResetRotationVariables();
     }
