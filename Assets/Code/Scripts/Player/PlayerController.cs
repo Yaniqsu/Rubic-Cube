@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private InputController inputController;
+    [SerializeField] private CubeInputController cubeInputController;
     [SerializeField] private CubeController cubeController;
 
     private void Start()

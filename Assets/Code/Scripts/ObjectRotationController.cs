@@ -18,4 +18,15 @@ public class ObjectRotationController : MonoBehaviour
         objTransform.Rotate(_cameraTransform.up, -delta.x * speed, Space.World);
         objTransform.Rotate(_cameraTransform.right, delta.y * speed, Space.World);
     }
+
+    public void Rotate(Vector2 delta, float speed)
+    {
+        objTransform.Rotate(_cameraTransform.up, -delta.x * speed, Space.World);
+        objTransform.Rotate(_cameraTransform.right, delta.y * speed, Space.World);
+    }
+
+    public void Tilt(float value)
+    {
+        objTransform.Rotate(_cameraTransform.forward, -value, Space.World);
+    }
 }

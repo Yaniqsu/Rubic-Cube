@@ -30,6 +30,11 @@ public class CubeRotator : MonoBehaviour
     public event Action onRotationEnd;
     public event Action<CubeRotationData> onMove;
 
+    public Quaternion CameraOrientedRotation =>
+        Quaternion.Inverse(_main.transform.rotation) * cubeRoot.rotation * cubeRoot.localRotation;
+
+    public Vector3 CameraOrientedRotationEuler => CameraOrientedRotation.eulerAngles;
+
     private void Awake()
     {
         _main = Camera.main;
