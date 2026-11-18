@@ -47,12 +47,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0849e19842e0d646b1a5a5b3c43d481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CubeElement
+  <Position>k__BackingField: {x: 0, y: 0, z: 0}
   wallTop: {fileID: 6267934524692381215}
   wallBottom: {fileID: 3230006793829455290}
   wallRight: {fileID: 8647447247147430513}
   wallLeft: {fileID: 1859444675743411178}
   wallFront: {fileID: 7015730505864502375}
   wallBack: {fileID: 3328168137186751930}
+  backgroundMesh: {fileID: 5682582408407956031}
+  defaultMaterial: {fileID: 2100000, guid: 3172629c370db36418d76d90e573c23e, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 7d4cd5737b57373419a7556b3a9502c5, type: 2}
 --- !u!65 &2979373236625879927
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -20,6 +20,9 @@ public class CubeElement : MonoBehaviour
     [SerializeField] private GameObject wallLeft;
     [SerializeField] private GameObject wallFront;
     [SerializeField] private GameObject wallBack;
+    [SerializeField] private MeshRenderer backgroundMesh;
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material highlightMaterial;
 
 
     public bool EnableTopWall
@@ -80,5 +83,10 @@ public class CubeElement : MonoBehaviour
             _backWallEnabled = value;
             wallBack.SetActive(value);
         }
+    }
+
+    public void ToggleHighlight(bool highlighted)
+    {
+        backgroundMesh.material = highlighted ? highlightMaterial : defaultMaterial;
     }
 }

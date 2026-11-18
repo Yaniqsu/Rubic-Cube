@@ -16,6 +16,8 @@ public class CubeController : MonoBehaviour
     private readonly Stack<CubeRotationData> _rotationHistory = new();
 
     public int Size { get; private set; }
+    public CubeElement CurrentSelectedElement { get; private set; }
+    public Vector3 ElementFaceNormal { get; private set; }
 
     public event Action onCubeSolved;
     public event Action onMove;
@@ -28,7 +30,7 @@ public class CubeController : MonoBehaviour
         
         _elements = spawner.SpawnCube(Size).ToArray();
 
-        rotator.Initialize(_elements, Size);
+        rotator.Initialize(this, _elements, Size);
         rotator.onMove += OnMove;
         if (randomizedTurns > 0) rotator.onRotationEnd += OnRotationEnd;
         
@@ -95,5 +97,20 @@ public class CubeController : MonoBehaviour
         _rotationHistory.Push(rotationData);
         
         onMove?.Invoke();
+    }
+
+    public void ChangeSelectedElement(CubeElement element, Vector3 normal)
+    {
+        if (rotator.Rotating)
+            return;
+        
+        if(CurrentSelectedElement)
+            CurrentSelectedElement.ToggleHighlight(false);
+        
+        CurrentSelectedElement = element;
+        ElementFaceNormal = normal;
+
+        if(CurrentSelectedElement)
+            CurrentSelectedElement.ToggleHighlight(true);
     }
 }
