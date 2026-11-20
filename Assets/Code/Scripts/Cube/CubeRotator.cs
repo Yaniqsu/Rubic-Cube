@@ -58,7 +58,6 @@ public class CubeRotator : MonoBehaviour
 
     private CubeController _cubeController;
     private CubeElement[] _elements;
-    private Camera _main;
     private CoroutineSequencer _moveSegmentSequencer;
 
     private int _size;
@@ -72,13 +71,12 @@ public class CubeRotator : MonoBehaviour
     public event Action OnRotationEnd;
     public event Action<CubeRotationData> OnMove;
 
-    public Quaternion CameraRelativeRotation => Quaternion.Inverse(_main.transform.rotation) * cubeRoot.localRotation;
+    public Quaternion CameraRelativeRotation => CameraUtilities.GetCameraRelativeRotation(cubeRoot.localRotation);
     public Vector3 CameraRelativeRotationEuler => CameraRelativeRotation.eulerAngles;
     public bool Rotating { get; private set; }
 
     private void Awake()
     {
-        _main = Camera.main;
         _moveSegmentSequencer = new CoroutineSequencer(this);
     }
 
@@ -302,7 +300,7 @@ public class CubeRotator : MonoBehaviour
 
     private Vector3 GetRotationAxis(Vector2 direction)
     {
-        var dragDirection = GetRotationAxisFromDirection(direction);
+        var dragDirection = CameraUtilities.GetRotationAxisFromDirection(direction);
         var localDrag = cubeRoot.InverseTransformDirection(dragDirection).normalized;
         var rotationAxis = Vector3.Cross(_elementFaceNormal, localDrag).normalized;
         var localAxis = transform.InverseTransformDirection(rotationAxis);
@@ -326,9 +324,6 @@ public class CubeRotator : MonoBehaviour
 
         return true;
     }
-
-    private Vector3 GetRotationAxisFromDirection(Vector2 direction)
-        => _main.transform.right * direction.x + _main.transform.up * direction.y;
 
     #endregion
 }
