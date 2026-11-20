@@ -126,11 +126,6 @@ public class CubeRotator : MonoBehaviour
         _totalRotation = Vector3.zero;
     }
 
-    public void StartSpinning()
-    {
-        StartCoroutine(HandleSpinning());
-    }
-
     public void RotateByCameraDirection(Vector2 direction, float speed)
     {
         if (!Rotating || direction.magnitude < 0.1f)
@@ -283,18 +278,6 @@ public class CubeRotator : MonoBehaviour
         {
             if (Vector3.Dot(e.Position, rotationAxis) == Vector3.Dot(elementPos, rotationAxis))
                 yield return e;
-        }
-    }
-
-    private IEnumerator HandleSpinning()
-    {
-        var speed= 0f;
-        var axis = cubeRoot.InverseTransformDirection(Vector3.down);
-        while(true)
-        {
-            speed = Mathf.MoveTowards(speed, 20, 5 * Time.deltaTime);
-            cubeRoot.Rotate(speed * Time.deltaTime * axis);
-            yield return null;
         }
     }
 

@@ -89,7 +89,6 @@ public class CubeController : MonoBehaviour
     private void OnCubeSolved()
     {
         onCubeSolved?.Invoke();
-        rotator.StartSpinning();
     }
 
     private void OnMove(CubeRotationData rotationData)
