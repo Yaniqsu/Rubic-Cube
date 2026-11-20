@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CoroutineSequencer
@@ -53,8 +52,6 @@ public class CoroutineSequencer
 
 public class CubeRotator : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private float errorMargin;
     [SerializeField] private Transform cubeRoot;
     [SerializeField] private LayerMask cubeLayer;
     [SerializeField] private Transform pivot;
@@ -65,7 +62,6 @@ public class CubeRotator : MonoBehaviour
     private CoroutineSequencer _moveSegmentSequencer;
 
     private int _size;
-    private float _dragLength;
     private Vector3 _setRotationAxis;
     private Vector3Int _elementPosition;
     private Vector3 _elementFaceNormal;
@@ -73,9 +69,8 @@ public class CubeRotator : MonoBehaviour
 
     private CubeElement[] _elementsToRotate = Array.Empty<CubeElement>();
 
-    public event Action onRotationEnd;
-    public event Action<CubeRotationData> onMove;
-
+    public event Action OnRotationEnd;
+    public event Action<CubeRotationData> OnMove;
 
     public Quaternion CameraRelativeRotation => Quaternion.Inverse(_main.transform.rotation) * cubeRoot.localRotation;
     public Vector3 CameraRelativeRotationEuler => CameraRelativeRotation.eulerAngles;
@@ -87,50 +82,35 @@ public class CubeRotator : MonoBehaviour
         _moveSegmentSequencer = new CoroutineSequencer(this);
     }
 
-    public void Initialize(CubeController cubeController, CubeElement[] elements, int size)
+    public void StartRotationDrag(CubeController cubeController, CubeElement[] elements, int size)
     {
         _cubeController = cubeController;
         _elements = elements;
         _size = size;
     }
 
-    #region INTERFACE
-
-    public void StartRotation()
-    {
-        if (_cubeController.CurrentSelectedElement)
-        {
-            InitializeRotation(_cubeController.CurrentSelectedElement, _cubeController.ElementFaceNormal);
-        }
-    }
-
-    public void ExecuteRotation(Vector2 mouseDelta)
-    {
-        RotateFromDirection(mouseDelta, Time.deltaTime * speed);
-    }
-
-    public void EndRotation()
+    public void EndRotationDrag()
     {
         CleanAfterRotation();
 
         if (_totalRotation.magnitude >= 90)
-            onMove?.Invoke(new CubeRotationData() { elementPos = _elementPosition, axis = _totalRotation });
+            OnMove?.Invoke(new CubeRotationData() { elementPos = _elementPosition, axis = _totalRotation });
 
         _totalRotation = Vector3.zero;
-        onRotationEnd?.Invoke();
+        OnRotationEnd?.Invoke();
     }
 
-    public void ForceRotationFromCamera(Vector2 direction, float time)
+    public void SetRotationByCameraDirection(Vector2 direction, float time)
     {
         if (!_cubeController.CurrentSelectedElement)
             return;
         
         InitializeRotation(_cubeController.CurrentSelectedElement, _cubeController.ElementFaceNormal);
         
-        RotateFromDirectionInTime(direction, 90f, time, EndRotation);
+        RotateByCameraDirectionInTime(direction, 90f, time, EndRotationDrag);
     }
 
-    public void ForceRotation(Vector3Int elementPos, Vector3 axis)
+    public void SetRotationByAxis(Vector3Int elementPos, Vector3 axis)
     {
         ResetRotationVariables();
 
@@ -153,16 +133,9 @@ public class CubeRotator : MonoBehaviour
         StartCoroutine(HandleSpinning());
     }
 
-    #endregion
-
-    private void RotateFromDirection(Vector2 direction, float speed, bool ignoreMargin = false)
+    public void RotateByCameraDirection(Vector2 direction, float speed)
     {
         if (!Rotating || direction.magnitude < 0.1f)
-            return;
-
-        _dragLength += direction.magnitude;
-
-        if (!ignoreMargin && _dragLength < errorMargin)
             return;
 
         var localAxis = GetRotationAxis(direction);
@@ -177,19 +150,17 @@ public class CubeRotator : MonoBehaviour
         RotateElements(speed * localAxis);
     }
 
-    private void RotateFromDirectionInTime(Vector2 direction, float speed, float time, Action onEnd = null)
+    private void RotateByCameraDirectionInTime(Vector2 direction, float speed, float time, Action onEnd = null)
     {
-        _dragLength += direction.magnitude;
-
         var localAxis = GetRotationAxis(direction);
 
         ChooseRotationAxis(localAxis);
 
         _totalRotation += speed * localAxis;
-        _moveSegmentSequencer.AddCoroutine(RotationInTimeRoutine(speed * localAxis, time), onEnd);
+        _moveSegmentSequencer.AddCoroutine(RotateByAxisInTime(speed * localAxis, time), onEnd);
     }
 
-    private IEnumerator RotationInTimeRoutine(Vector3 rotationEuler, float time)
+    private IEnumerator RotateByAxisInTime(Vector3 rotationEuler, float time)
     {
         var startRotation = pivot.localRotation;
         var endRotation = Quaternion.Euler(rotationEuler);
@@ -205,17 +176,6 @@ public class CubeRotator : MonoBehaviour
         }
 
         pivot.localRotation = endRotation;
-    }
-
-    private Vector3 GetRotationAxis(Vector2 direction)
-    {
-        var dragDirection = GetRotationAxisFromDirection(direction);
-        var localDrag = cubeRoot.InverseTransformDirection(dragDirection).normalized;
-        var rotationAxis = Vector3.Cross(_elementFaceNormal, localDrag).normalized;
-        var localAxis = transform.InverseTransformDirection(rotationAxis);
-        localAxis = localAxis.GetClosestAxis();
-
-        return localAxis;
     }
 
     private void CleanAfterRotation()
@@ -237,12 +197,11 @@ public class CubeRotator : MonoBehaviour
             Mathf.RoundToInt(dragRotationNormalised.z)));
 
         pivot.transform.localEulerAngles = Vector3.zero;
-        _dragLength = 0;
         _setRotationAxis = Vector3.zero;
         Rotating = false;
     }
 
-    private void InitializeRotation(CubeElement element, Vector3 normal)
+    public void InitializeRotation(CubeElement element, Vector3 normal)
     {
         _elementPosition = element.Position;
         _elementFaceNormal = cubeRoot.InverseTransformDirection(normal).normalized;
@@ -339,6 +298,17 @@ public class CubeRotator : MonoBehaviour
             cubeRoot.Rotate(speed * Time.deltaTime * axis);
             yield return null;
         }
+    }
+
+    private Vector3 GetRotationAxis(Vector2 direction)
+    {
+        var dragDirection = GetRotationAxisFromDirection(direction);
+        var localDrag = cubeRoot.InverseTransformDirection(dragDirection).normalized;
+        var rotationAxis = Vector3.Cross(_elementFaceNormal, localDrag).normalized;
+        var localAxis = transform.InverseTransformDirection(rotationAxis);
+        localAxis = localAxis.GetClosestAxis();
+
+        return localAxis;
     }
 
     #region UTILITIES

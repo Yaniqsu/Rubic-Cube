@@ -30,9 +30,9 @@ public class CubeController : MonoBehaviour
         
         _elements = spawner.SpawnCube(Size).ToArray();
 
-        rotator.Initialize(this, _elements, Size);
-        rotator.onMove += OnMove;
-        if (randomizedTurns > 0) rotator.onRotationEnd += OnRotationEnd;
+        rotator.StartRotationDrag(this, _elements, Size);
+        rotator.OnMove += OnMove;
+        if (randomizedTurns > 0) rotator.OnRotationEnd += OnRotationEnd;
         
         Randomize(randomizedTurns == 0 ? randomizeTurns : randomizedTurns);
     }
@@ -44,7 +44,7 @@ public class CubeController : MonoBehaviour
 
         var data = _rotationHistory.Pop();
 
-        rotator.ForceRotation(data.elementPos, -data.axis);
+        rotator.SetRotationByAxis(data.elementPos, -data.axis);
         onUndo?.Invoke();
     }
 
@@ -71,7 +71,7 @@ public class CubeController : MonoBehaviour
             axises.Remove(axis);
             axises.Add(axis);
 
-            rotator.ForceRotation(elementPos, rotation * axis);
+            rotator.SetRotationByAxis(elementPos, rotation * axis);
         }
     }
 

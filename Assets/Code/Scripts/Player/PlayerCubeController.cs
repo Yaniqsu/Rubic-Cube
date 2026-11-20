@@ -1,6 +1,4 @@
-using System.Collections;
 using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PlayerCubeController : MonoBehaviour
@@ -10,9 +8,13 @@ public class PlayerCubeController : MonoBehaviour
     [SerializeField] private ObjectRotationController rotationController;
     [SerializeField] private MouseRaycastController mouseRaycastController;
     [Space]
-    [SerializeField] private float freeRotateSpeed;
+    [SerializeField] private float freeRotationSpeed;
+    [SerializeField] private float mouseRotationSpeed;
     [SerializeField] private float tiltSpeed;
     [SerializeField] private float snapAndRotateTime;
+    [SerializeField] private float errorMargin;
+
+    private float _totalDragLength;
 
     private void Start()
     {
@@ -25,12 +27,7 @@ public class PlayerCubeController : MonoBehaviour
                 cubeController.ChangeSelectedElement(null, Vector3.zero);
         });
     }
-
-    private void Update()
-    {
-        //Debug.Log(cubeRotator.CameraOrientedRotationEuler);
-    }
-
+    
     public void MoveCube(Vector2Int direction, bool snapRotation)
     {
         if(snapRotation)
@@ -39,14 +36,14 @@ public class PlayerCubeController : MonoBehaviour
         }
         else
         {
-            rotationController.Rotate(direction, Time.deltaTime * freeRotateSpeed);
+            rotationController.Rotate(direction, Time.deltaTime * freeRotationSpeed);
         }
     }
 
     public void MoveSegment(Vector2 direction)
     {
         if(cubeController.CurrentSelectedElement)
-            cubeRotator.ForceRotationFromCamera(direction, 0.3f);
+            cubeRotator.SetRotationByCameraDirection(direction, 0.3f);
     }
 
     public void MoveSelectedElement(Vector2Int direction)
@@ -58,4 +55,25 @@ public class PlayerCubeController : MonoBehaviour
     {
         rotationController.SnapAndTilt(cubeRotator.CameraRelativeRotationEuler, (int)direction, 0.3f);
     }
+
+    public void StartRotation()
+    {
+        if (cubeController.CurrentSelectedElement)
+        {
+            _totalDragLength = 0;
+            
+            cubeRotator.InitializeRotation(cubeController.CurrentSelectedElement, cubeController.ElementFaceNormal);
+        }
+    }
+
+    public void ExecuteRotation(Vector2 mouseDelta)
+    {
+        _totalDragLength += mouseDelta.magnitude;
+        if (_totalDragLength < errorMargin)
+            return;
+        
+        cubeRotator.RotateByCameraDirection(mouseDelta, Time.deltaTime * mouseRotationSpeed);
+    }
+
+    public void EndRotation() => cubeRotator.EndRotationDrag();
 }
