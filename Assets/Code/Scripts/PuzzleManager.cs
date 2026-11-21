@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PuzzleManager : MonoBehaviour
 {
@@ -8,9 +9,12 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private EnvironmentManager environmentManager;
     [SerializeField] private MenuInputController menuInputController;
     [SerializeField] private GameWonManager gameWonManager;
+    [SerializeField] private RotationController rotationController;
     [SerializeField] private SpeedRunStatsManager speedRunStatsManager;
 
     private GameStats _gameStats;
+
+    public UnityEvent OnWin;
 
     private void Start()
     {
@@ -48,6 +52,8 @@ public class PuzzleManager : MonoBehaviour
 
     private void OnCubeSolved()
     {
+        OnWin.Invoke();
+        
         TimeCounter.StopCounting();
         _gameStats.time.Value = TimeCounter.GetTime();
 
@@ -55,6 +61,8 @@ public class PuzzleManager : MonoBehaviour
         
         gameWonManager.DisplayStats(_gameStats);
         gameWonManager.Show();
+
+        rotationController.StartRotation();
 
         menuInputController.DisableInput();
     }

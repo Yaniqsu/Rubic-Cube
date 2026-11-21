@@ -90,6 +90,7 @@ public class CubeController : MonoBehaviour
 
     private void OnCubeSolved()
     {
+        ChangeSelectedElement(null, Vector3.zero);
         onCubeSolved?.Invoke();
     }
 

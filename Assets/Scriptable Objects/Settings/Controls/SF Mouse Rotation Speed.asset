@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::YNQ.Settings.SettingField.IntSettingField
   <Name>k__BackingField: Mouse rotation speed
   <Description>k__BackingField: Mouse rotation speed
-  defaultValue: 20
+  defaultValue: 40
   autoApply: 0
-  <MinValue>k__BackingField: 5
-  <MaxValue>k__BackingField: 45
+  <MinValue>k__BackingField: 10
+  <MaxValue>k__BackingField: 100
