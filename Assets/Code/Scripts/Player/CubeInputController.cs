@@ -12,8 +12,7 @@ public class CubeInputController : AInputController
     
     [SerializeField] private string rotate;
 
-    [SerializeField] private string moveVertical;
-    [SerializeField] private string moveHorizontal;
+    [SerializeField] private string move;
 
     [SerializeField] private string tilt;
 
@@ -34,8 +33,7 @@ public class CubeInputController : AInputController
 
         RegisterInputAction(rotate, OnRotateStarted);
 
-        RegisterInputAction(moveVertical, OnMoveVerticalStarted);
-        RegisterInputAction(moveHorizontal, OnMoveHorizontalStarted);
+        RegisterInputAction(move, OnMoveStarted);
 
         RegisterInputAction(tilt, CallOnTilt);
     }
@@ -44,10 +42,7 @@ public class CubeInputController : AInputController
     {
         if(_currentMode == MoveMode.RotateCube)
         {
-            var vertical = Map[moveVertical].ReadValue<float>();
-            var horizontal = Map[moveHorizontal].ReadValue<float>();
-
-            var direction = new Vector2(horizontal, vertical).ToVector2Int();
+            var direction = Map[move].ReadValue<Vector2>().ToVector2Int();
 
             if(direction.magnitude > 0)
                 OnMoveCube.Invoke(direction, false);
@@ -77,24 +72,10 @@ public class CubeInputController : AInputController
         OnTilt.Invoke(direction, true);
     }
 
-    private void OnMoveVerticalStarted(InputAction.CallbackContext context)
+    private void OnMoveStarted(InputAction.CallbackContext context)
     {
-        var inputValue = context.ReadValue<float>();
-        var direction = new Vector2(0, inputValue).ToVector2Int();
+        var direction = context.ReadValue<Vector2>().ToVector2Int();
         
-        switch (_currentMode)
-        {
-            case MoveMode.MoveSegment:
-                OnMoveSelectedElement.Invoke(direction);
-                break;
-        }
-    }
-
-    private void OnMoveHorizontalStarted(InputAction.CallbackContext context)
-    {
-        var inputValue = context.ReadValue<float>();
-        var direction = new Vector2(inputValue, 0).ToVector2Int();
-
         switch (_currentMode)
         {
             case MoveMode.MoveSegment:

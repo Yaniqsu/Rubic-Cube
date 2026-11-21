@@ -94,7 +94,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4633964158507712479, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_Name
-      value: 'Button: [Space]'
+      value: 'Button: Rebinding...'
       objectReference: {fileID: 0}
     - target: {fileID: 6952428721498789038, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_IsActive
@@ -102,7 +102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7388891930824299929, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: text
-      value: '[Space]'
+      value: Rebinding...
       objectReference: {fileID: 0}
     - target: {fileID: 7388891930824299929, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: baseColor.a
@@ -150,7 +150,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_text
-      value: '[Space]'
+      value: Rebinding...
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_fontSize
