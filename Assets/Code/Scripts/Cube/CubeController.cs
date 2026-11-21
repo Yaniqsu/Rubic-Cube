@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class CubeController : MonoBehaviour
 {
     [SerializeField] private CubeSpawner spawner;
-    [SerializeField] private CubeRotator rotator;
+    [SerializeField] private CameraCubeRotator rotator;
     [SerializeField] private int defaultSize;
     [SerializeField] private int randomizeTurns;
 

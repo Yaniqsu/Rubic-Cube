@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerCubeController : MonoBehaviour
 {
     [SerializeField] private CubeController cubeController;
-    [SerializeField] private CubeRotator cubeRotator;
+    [SerializeField] private CameraCubeRotator cubeRotator;
     [SerializeField] private ObjectRotationController rotationController;
     [SerializeField] private MouseRaycastController mouseRaycastController;
     [Space]
