@@ -1,5 +1,93 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using YNQ.Sequencer;
+
+public class RotateCubeAction : ISequenceAction
+{
+    private readonly ObjectRotationController _rotationController;
+    private readonly CameraCubeRotator _cubeRotator;
+    private readonly Vector2Int _direction;
+    private readonly float _time;
+    private float _elapsed;
+
+    public RotateCubeAction(ObjectRotationController rotationController, CameraCubeRotator cubeRotator, Vector2Int direction, float time)
+    {
+        _rotationController = rotationController;
+        _cubeRotator = cubeRotator;
+        _direction = direction;
+        _time = time;
+        _elapsed = 0;
+    }
+
+    public void Start()
+    {
+        _rotationController.SnapAndRotate(_cubeRotator.CameraRelativeRotationEuler, _direction, _time);
+    }
+
+    public void Update(float elapsed)
+    {
+        _elapsed = elapsed;
+    }
+
+    public bool Completed => _elapsed >= _time;
+}
+
+public class SetRotationAction : ISequenceAction
+{
+    private readonly CameraCubeRotator _rotator;
+    private readonly Vector2 _direction;
+    private readonly float _time;
+    private float _elapsed;
+
+    public SetRotationAction(CameraCubeRotator rotator, Vector2 direction, float time)
+    {
+        _rotator = rotator;
+        _direction = direction;
+        _time = time;
+        _elapsed = 0;
+    }
+
+    public void Start()
+    {
+        _rotator.SetRotationByCameraDirection(_direction, _time);
+    }
+
+    public void Update(float elapsed)
+    {
+        _elapsed = elapsed;
+    }
+
+    public bool Completed => _elapsed >= _time;
+}
+
+public class SnapAndTiltAction : ISequenceAction
+{
+    private readonly ObjectRotationController _rotationController;
+    private readonly CameraCubeRotator _cubeRotator;
+    private readonly int _direction;
+    private readonly float _time;
+    private float _elapsed;
+
+    public SnapAndTiltAction(ObjectRotationController rotationController, CameraCubeRotator cubeRotator, int direction, float time)
+    {
+        _rotationController = rotationController;
+        _cubeRotator = cubeRotator;
+        _direction = direction;
+        _time = time;
+        _elapsed = 0;
+    }
+
+    public void Start()
+    {
+        _rotationController.SnapAndTilt(_cubeRotator.CameraRelativeRotationEuler, _direction, _time);
+    }
+
+    public void Update(float elapsed)
+    {
+        _elapsed = elapsed;
+    }
+
+    public bool Completed => _elapsed >= _time;
+}
 
 public class PlayerCubeController : MonoBehaviour
 {
@@ -15,9 +103,12 @@ public class PlayerCubeController : MonoBehaviour
     [SerializeField] private float errorMargin;
 
     private float _totalDragLength;
+    private Sequencer _sequencer;
 
     private void Start()
     {
+        _sequencer = new Sequencer(this);
+        
         mouseRaycastController.OnCheck.AddListener(hit =>
         {
             var hitInfo = mouseRaycastController.LastHitInfo;
@@ -32,7 +123,11 @@ public class PlayerCubeController : MonoBehaviour
     {
         if(snapRotation)
         {
-            rotationController.SnapAndRotate(cubeRotator.CameraRelativeRotationEuler, direction, snapAndRotateTime);
+            _sequencer.QueueAction(new RotateCubeAction(
+                rotationController, 
+                cubeRotator, 
+                direction, 
+                snapAndRotateTime));
         }
         else
         {
@@ -43,7 +138,9 @@ public class PlayerCubeController : MonoBehaviour
     public void MoveSegment(Vector2 direction)
     {
         if(cubeController.HasSelectedElement)
-            cubeRotator.SetRotationByCameraDirection(direction, 0.3f);
+        {
+            _sequencer.QueueAction(new SetRotationAction(cubeRotator, direction, 0.3f));
+        }
     }
 
     public void MoveSelectedElement(Vector2Int direction)
@@ -53,7 +150,7 @@ public class PlayerCubeController : MonoBehaviour
 
     public void Tilt(float direction, bool snap)
     {
-        rotationController.SnapAndTilt(cubeRotator.CameraRelativeRotationEuler, (int)direction, 0.3f);
+        _sequencer.QueueAction(new SnapAndTiltAction(rotationController, cubeRotator, (int)direction, 0.3f));
     }
 
     public void StartRotation()

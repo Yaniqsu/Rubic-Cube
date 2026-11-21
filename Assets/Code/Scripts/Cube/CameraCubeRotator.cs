@@ -6,13 +6,10 @@ using UnityEngine;
 
 public class CameraCubeRotator : ACubeRotator
 {
-    private CoroutineSequencer _moveSegmentSequencer;
     private Vector3 _setRotationAxis;
 
-    private void Awake()
-    {
-        _moveSegmentSequencer = new CoroutineSequencer(this);
-    }
+    public Quaternion CameraRelativeRotation => CameraUtilities.GetCameraRelativeRotation(cubeRoot.localRotation);
+    public Vector3 CameraRelativeRotationEuler => CameraRelativeRotation.eulerAngles;
 
     public void SetRotationByCameraDirection(Vector2 direction, float time)
     {
@@ -46,7 +43,7 @@ public class CameraCubeRotator : ACubeRotator
         ChooseRotationAxis(localAxis);
 
         _totalRotation += speed * localAxis;
-        _moveSegmentSequencer.AddCoroutine(RotateByAxisInTime(speed * localAxis, time), onEnd);
+        StartCoroutine(RotateByAxisInTime(speed * localAxis, time, onEnd));
     }
 
     protected override void CleanAfterRotation()

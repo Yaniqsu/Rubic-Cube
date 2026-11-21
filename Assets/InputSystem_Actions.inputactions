@@ -212,39 +212,6 @@
             ],
             "bindings": [
                 {
-                    "name": "1D Axis",
-                    "id": "cd17a002-f273-438f-87af-3aa79e9fc6fa",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Tilt",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "74ad9aaf-8e1f-4623-abde-a88865b5960c",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Tilt",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "8f9a33a1-5191-4cbd-85b1-c8a40c940b09",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Tilt",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "012fa5e4-f832-4c3d-b1d9-7115527a3a4d",
                     "path": "<Keyboard>/space",
@@ -373,6 +340,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Move Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "0e5cafac-d1ff-4853-b826-4562113aaa34",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tilt",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "d79bd51d-5af0-443d-83d3-d653de19092a",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tilt",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "80530d0c-74ec-4279-889a-0c545bfc0a0c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tilt",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

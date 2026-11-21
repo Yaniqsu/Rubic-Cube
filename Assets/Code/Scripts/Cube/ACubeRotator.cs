@@ -17,8 +17,6 @@ public class ACubeRotator : MonoBehaviour
     protected Vector3 _elementNormal;
     protected int _size;
 
-    public Quaternion CameraRelativeRotation => CameraUtilities.GetCameraRelativeRotation(cubeRoot.localRotation);
-    public Vector3 CameraRelativeRotationEuler => CameraRelativeRotation.eulerAngles;
     public bool Rotating { get; private set; }
 
 
@@ -75,7 +73,7 @@ public class ACubeRotator : MonoBehaviour
         _totalRotation = Vector3.zero;
     }
 
-    protected IEnumerator RotateByAxisInTime(Vector3 rotationEuler, float time)
+    protected IEnumerator RotateByAxisInTime(Vector3 rotationEuler, float time, Action onEnd)
     {
         var startRotation = pivot.localRotation;
         var endRotation = Quaternion.Euler(rotationEuler);
@@ -91,6 +89,8 @@ public class ACubeRotator : MonoBehaviour
         }
 
         pivot.localRotation = endRotation;
+
+        onEnd?.Invoke();
     }
 
     protected virtual void CleanAfterRotation()

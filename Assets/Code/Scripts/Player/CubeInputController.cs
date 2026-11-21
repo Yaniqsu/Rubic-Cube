@@ -51,11 +51,6 @@ public class CubeInputController : AInputController
 
             if(direction.magnitude > 0)
                 OnMoveCube.Invoke(direction, false);
-
-            var tiltValue = Map[tilt].ReadValue<float>();
-
-            if(tiltValue != 0)
-                OnTilt.Invoke(tiltValue, false);
         }
     }
 
