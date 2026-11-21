@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0c041741dab7bc40b3d7b96293c4bd6, type: 3}
+  m_Name: Setting Field IA Change Mode
+  m_EditorClassIdentifier: Assembly-CSharp::YNQ.Settings.SettingField.InputBindingSettingField
+  <Name>k__BackingField: Change Mode
+  <Description>k__BackingField: When pressed, changes the mode to rotate the cube
+    (when using keyboard)
+  defaultValue: 
+  autoApply: 0
+  <InputAction>k__BackingField: {fileID: 6928673542406673366, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  <CanRebind>k__BackingField: 0

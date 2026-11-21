@@ -1,22 +1,33 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NaughtyAttributes;
-
+using NUnit.Framework;
 using TMPro;
 
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 namespace YNQ.InputField
 {
     public class InputField_KeyMap : AInputField
     {
+        private struct BindingReference
+        {
+            public TextButton button;
+            public int bindingIndex;
+        }
+        
         [SerializeField, BoxGroup(BOX_SETTINGS)] private InputAction _action;
-        [SerializeField, BoxGroup(BOX_COMPONENTS)] private TextButton _rebindButton;
+        [SerializeField, BoxGroup(BOX_COMPONENTS)] private RectTransform _buttonsContext;
+        [SerializeField, BoxGroup(BOX_COMPONENTS)] private TextButton rebindButtonPrefab;
         [BoxGroup(BOX_EVENTS)] public UnityEvent<InputAction> OnRebind;
 
         private InputActionRebindingExtensions.RebindingOperation _rebindOperation;
+
+        private List<BindingReference> _references = new();
 
         public InputAction Action => _action;
 
@@ -25,19 +36,39 @@ namespace YNQ.InputField
             nameDisplay.text = action.name;
             _action = action;
 
-            UpdateControl();
+            var buttonsCount = 0;
+            for(int i = 0; i < _action.bindings.Count; i++)
+            {
+                if (_action.bindings[i].isComposite)
+                    continue;
+
+                var index = buttonsCount;
+                var button = Instantiate(rebindButtonPrefab, _buttonsContext);
+                button.onClick.AddListener(() => Rebind(index));
+
+                _references.Add(new BindingReference() { button = button, bindingIndex = i });
+
+                UpdateControlDisplay(buttonsCount);
+                buttonsCount++;
+            }
         }
 
-        public void UpdateControl()
-            => _rebindButton.Text = _action.bindings.Count > 0 ? $"[{_action.bindings[0].ToDisplayString()}]" : "No Binding";
-
-        public void Rebind()
+        public void UpdateControlDisplay(int referenceIndex)
         {
-            _rebindButton.Text = "Rebinding...";
-            PerformRebind();
+            if (referenceIndex < 0 || referenceIndex >= _action.bindings.Count)
+                return;
+
+            var bindingIndex = _references[referenceIndex].bindingIndex;
+            _references[referenceIndex].button.Text = $"[{_action.bindings[bindingIndex].ToDisplayString()}]";
         }
 
-        private async void PerformRebind()
+        public void Rebind(int referenceIndex)
+        {
+            _references[referenceIndex].button.Text = "Rebinding...";
+            PerformRebind(referenceIndex);
+        }
+
+        private async void PerformRebind(int referenceIndex)
         {
             await Task.Delay(10);
 
@@ -55,19 +86,20 @@ namespace YNQ.InputField
                 .WithControlsExcluding("<Mouse>/position")
                 .WithControlsExcluding("<Mouse>/delta")
                 .OnMatchWaitForAnother(0.1f)
+                .WithTargetBinding(_references[referenceIndex].bindingIndex)
                 .OnComplete(operation =>
                 {
                     action.Enable();
                     operation.Dispose();
 
-                    UpdateControl();
+                    UpdateControlDisplay(referenceIndex);
                     OnRebind.Invoke(action);
                 })
                 .OnCancel(operation =>
                 {
                     action.Enable();
                     operation.Dispose();
-                    UpdateControl();
+                    UpdateControlDisplay(referenceIndex);
                 });
 
             _rebindOperation.Start();
