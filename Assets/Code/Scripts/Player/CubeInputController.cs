@@ -44,7 +44,7 @@ public class CubeInputController : AInputController
         {
             var direction = Map[move].ReadValue<Vector2>().ToVector2Int();
 
-            if(direction.magnitude > 0)
+            if (direction.magnitude > 0)
                 OnMoveCube.Invoke(direction, false);
         }
     }

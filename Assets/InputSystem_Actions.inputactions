@@ -216,7 +216,7 @@
                 {
                     "name": "2D Vector",
                     "id": "dacc7ff4-1634-485e-855c-b1bbc936fda5",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -304,7 +304,7 @@
                 {
                     "name": "2D Vector",
                     "id": "fe012aff-392e-4d22-9295-7a4a8ee23a11",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
