@@ -42,7 +42,7 @@ public class PlayerCubeController : MonoBehaviour
 
     public void MoveSegment(Vector2 direction)
     {
-        if(cubeController.CurrentSelectedElement)
+        if(cubeController.HasSelectedElement)
             cubeRotator.SetRotationByCameraDirection(direction, 0.3f);
     }
 
@@ -58,7 +58,7 @@ public class PlayerCubeController : MonoBehaviour
 
     public void StartRotation()
     {
-        if (cubeController.CurrentSelectedElement)
+        if (cubeController.HasSelectedElement)
         {
             _totalDragLength = 0;
             

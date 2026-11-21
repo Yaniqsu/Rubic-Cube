@@ -21,12 +21,12 @@ public class CubeRotator : MonoBehaviour
 
     private CubeElement[] _elementsToRotate = Array.Empty<CubeElement>();
 
-    public event Action OnRotationEnd;
-    public event Action<CubeRotationData> OnMove;
-
     public Quaternion CameraRelativeRotation => CameraUtilities.GetCameraRelativeRotation(cubeRoot.localRotation);
     public Vector3 CameraRelativeRotationEuler => CameraRelativeRotation.eulerAngles;
     public bool Rotating { get; private set; }
+
+    public event Action OnRotationEnd;
+    public event Action<CubeRotationData> OnMove;
 
     private void Awake()
     {
