@@ -192,7 +192,6 @@ public class PlayerCubeController : MonoBehaviour
         if (_totalDragLength < errorMargin)
             return;
 
-        Debug.Log(settingMouseDrag.Value);
         cubeRotator.RotateByCameraDirection(mouseDelta, Time.deltaTime * settingMouseDrag.Value);
     }
 
