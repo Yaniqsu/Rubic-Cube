@@ -17,6 +17,7 @@ public class TextButton : Selectable
 
     private RectTransform _rectTransform;
     private float _baseWidth;
+    private float _baseHeight;
 
     public string Text
     {
@@ -32,8 +33,9 @@ public class TextButton : Selectable
     {
         _rectTransform = GetComponent<RectTransform>();
         baseColor.a = 0.7f;
-        tmp.color = baseColor;
+        if(tmp) tmp.color = baseColor;
         _baseWidth = _rectTransform.sizeDelta.x;
+        _baseHeight = _rectTransform.sizeDelta.y;
         SetText(text);
     }
 
@@ -71,7 +73,7 @@ public class TextButton : Selectable
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        _rectTransform.DOSizeDelta(new Vector2(hoveredWidth, 30), 0.5f).SetUpdate(true);
+        _rectTransform.DOSizeDelta(new Vector2(hoveredWidth, _baseHeight), 0.5f).SetUpdate(true);
         tmp.DOFade(1, 0.5f).SetUpdate(true);
 
         ReformatText(hoveredFormat);
@@ -79,7 +81,7 @@ public class TextButton : Selectable
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        _rectTransform.DOSizeDelta(new Vector2(_baseWidth, 30), 0.5f).SetUpdate(true);
+        _rectTransform.DOSizeDelta(new Vector2(_baseWidth, _baseHeight), 0.5f).SetUpdate(true);
         tmp.DOFade(0.7f, 0.5f).SetUpdate(true);
 
         ReformatText(defaultFormat);
