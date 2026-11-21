@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class CameraUtilities
 {
@@ -7,7 +8,18 @@ public static class CameraUtilities
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Init()
     {
+        SceneManager.activeSceneChanged += ChangeMainCamera;
+        Application.quitting += OnApplicationQuit;
+    }
+
+    private static void ChangeMainCamera(Scene scene1, Scene scene2)
+    {
         m_mainCamera = Camera.main;
+    }
+
+    private static void OnApplicationQuit()
+    {
+        SceneManager.activeSceneChanged -= ChangeMainCamera;
     }
 
     public static Vector3 GetRotationAxisFromDirection(Vector2 direction)
