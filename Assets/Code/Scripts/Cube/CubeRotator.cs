@@ -11,15 +11,15 @@ public class CubeRotator : MonoBehaviour
     [SerializeField] private Transform pivot;
 
     private CubeElement[] _elements;
+    private CubeElement[] _elementsToRotate = Array.Empty<CubeElement>();
     private CoroutineSequencer _moveSegmentSequencer;
 
     private int _size;
+
     private Vector3 _setRotationAxis;
     private Vector3 _totalRotation;
     private Vector3Int? _elementPosition;
     private Vector3 _elementNormal;
-
-    private CubeElement[] _elementsToRotate = Array.Empty<CubeElement>();
 
     public Quaternion CameraRelativeRotation => CameraUtilities.GetCameraRelativeRotation(cubeRoot.localRotation);
     public Vector3 CameraRelativeRotationEuler => CameraRelativeRotation.eulerAngles;
@@ -42,18 +42,18 @@ public class CubeRotator : MonoBehaviour
     {
         _elementPosition = element ? element.Position : null;
     }
-
     public void SetSelectedElementNormal(Vector3 normal)
     {
         _elementNormal = cubeRoot.InverseTransformDirection(normal).normalized;
     }
 
-    public void StartRotationDrag(CubeElement[] elements, int size)
+    public void StartRotationDrag()
     {
-        _elements = elements;
-        _size = size;
-    }
+        Rotating = true;
+        _totalRotation = Vector3.zero;
 
+        ResetRotationVariables();
+    }
     public void EndRotationDrag()
     {
         CleanAfterRotation();
@@ -70,9 +70,25 @@ public class CubeRotator : MonoBehaviour
         if (!_elementPosition.HasValue)
             return;
         
-        InitializeRotation();
+        StartRotationDrag();
         
         RotateByCameraDirectionInTime(direction, 90f, time, EndRotationDrag);
+    }
+    public void RotateByCameraDirection(Vector2 direction, float speed)
+    {
+        if (!Rotating || direction.magnitude < 0.1f)
+            return;
+
+        var localAxis = GetRotationAxis(direction);
+
+        if (_setRotationAxis == Vector3.zero)
+        {
+            ChooseRotationAxis(localAxis);
+        }
+        else if (!DirectionsMatch(_setRotationAxis, localAxis))
+            return;
+
+        RotateElements(speed * localAxis);
     }
 
     public void SetRotationByAxis(Vector3Int elementPos, Vector3 axis)
@@ -91,23 +107,6 @@ public class CubeRotator : MonoBehaviour
         CleanAfterRotation();
 
         _totalRotation = Vector3.zero;
-    }
-
-    public void RotateByCameraDirection(Vector2 direction, float speed)
-    {
-        if (!Rotating || direction.magnitude < 0.1f)
-            return;
-
-        var localAxis = GetRotationAxis(direction);
-
-        if (_setRotationAxis == Vector3.zero)
-        {
-            ChooseRotationAxis(localAxis);
-        }
-        else if (!DirectionsMatch(_setRotationAxis, localAxis))
-            return;
-
-        RotateElements(speed * localAxis);
     }
 
     private void RotateByCameraDirectionInTime(Vector2 direction, float speed, float time, Action onEnd = null)
@@ -159,14 +158,6 @@ public class CubeRotator : MonoBehaviour
         pivot.transform.localEulerAngles = Vector3.zero;
         _setRotationAxis = Vector3.zero;
         Rotating = false;
-    }
-
-    public void InitializeRotation()
-    {
-        Rotating = true;
-        _totalRotation = Vector3.zero;
-
-        ResetRotationVariables();
     }
 
     private void ResetRotationVariables()
