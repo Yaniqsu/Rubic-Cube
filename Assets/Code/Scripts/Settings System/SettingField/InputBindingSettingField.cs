@@ -15,5 +15,15 @@ namespace YNQ.Settings.SettingField
         public override string GetValueDisplay() => Value.ToString();
 
         protected override string ValidateValue(string value) => value;
+
+        public override object GetValue()
+        {
+            return InputAction.action.SaveBindingOverridesAsJson();
+        }
+
+        public override void LoadValue(object value)
+        {
+            InputAction.action.LoadBindingOverridesFromJson(value.ToString());
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace YNQ.Settings.Bank
 
 			foreach(var s in SettingFields)
 			{
-				dictionary.Add(s.name, s.GetValue());
+				dictionary.Add(s.GetName(), s.GetValue());
 			}
 
 			return new SettingsGroupSave() { data = dictionary };

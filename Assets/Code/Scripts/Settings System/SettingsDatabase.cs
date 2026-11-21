@@ -51,7 +51,7 @@ namespace YNQ.Settings
 
 			foreach(var g in Groups)
 			{
-				dictionary.Add(g.name, g.GetGroupsSave());
+				dictionary.Add(g.Name, g.GetGroupsSave());
 			}
 
 			return new SettingsSave() { groupsData = dictionary };

@@ -28,11 +28,9 @@ namespace YNQ.Settings
 			menuManager.onBack.AddListener(Back);
 			menuManager.onShowAnimationEnd.AddListener(() => onShowAnimationEnd?.Invoke());
 
-			//animator.onBackAnimationEnd.AddListener(onBackFinished.Invoke);
-
-            if (SettingsSaveManager.CanLoad())
+			if (SettingsSaveManager.CanLoad())
             {
-                database.LoadSave(SettingsSaveManager.Load());
+				database.LoadSave(SettingsSaveManager.Load());
             }
         }
 
