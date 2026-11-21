@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0c041741dab7bc40b3d7b96293c4bd6, type: 3}
-  m_Name: Setting Field IA Change Mode
+  m_Name: SF IA Change Mode
   m_EditorClassIdentifier: Assembly-CSharp::YNQ.Settings.SettingField.InputBindingSettingField
   <Name>k__BackingField: Change Mode
   <Description>k__BackingField: When pressed, changes the mode to rotate the cube

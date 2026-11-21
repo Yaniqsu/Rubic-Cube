@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0c041741dab7bc40b3d7b96293c4bd6, type: 3}
-  m_Name: Setting Field IA Move Cube
+  m_Name: SF IA Rotate Cube
   m_EditorClassIdentifier: Assembly-CSharp::YNQ.Settings.SettingField.InputBindingSettingField
-  <Name>k__BackingField: Move cube
-  <Description>k__BackingField: Move cube segment or whole cube (depending on the
-    current mode)
+  <Name>k__BackingField: Change selection
+  <Description>k__BackingField: Change selection or rotate cube freely (depending
+    on the current mdoe)
   defaultValue: 
   autoApply: 0
-  <InputAction>k__BackingField: {fileID: -188652318350029318, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  <InputAction>k__BackingField: {fileID: 5089258818630314596, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   <CanRebind>k__BackingField: 0

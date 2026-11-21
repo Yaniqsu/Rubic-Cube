@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 using YNQ.Sequencer;
+using YNQ.Settings.SettingField;
 
 public class RotateCubeAction : ISequenceAction
 {
@@ -96,11 +96,11 @@ public class PlayerCubeController : MonoBehaviour
     [SerializeField] private CameraCubeRotator cubeRotator;
     [SerializeField] private ObjectRotationController rotationController;
     [SerializeField] private MouseRaycastController mouseRaycastController;
+    [SerializeField] private IntSettingField settingFreeRotation;
+    [SerializeField] private IntSettingField settingMouseRotation;
+    [SerializeField] private IntSettingField settingMouseDrag;
+    [SerializeField] private FloatSettingField settingActionTime;
     [Space]
-    [SerializeField] private float freeRotationSpeed;
-    [SerializeField] private float mouseRotationSpeed;
-    [SerializeField] private float tiltSpeed;
-    [SerializeField] private float snapAndRotateTime;
     [SerializeField] private float errorMargin;
 
     private float _totalDragLength;
@@ -127,12 +127,12 @@ public class PlayerCubeController : MonoBehaviour
             _sequencer.QueueAction(new RotateCubeAction(
                 rotationController, 
                 cubeRotator, 
-                direction, 
-                snapAndRotateTime));
+                direction,
+                settingActionTime.Value));
         }
         else
         {
-            rotationController.Rotate(direction, Time.deltaTime * freeRotationSpeed);
+            rotationController.Rotate(direction, Time.deltaTime * settingFreeRotation.Value);
         }
     }
 
@@ -142,7 +142,7 @@ public class PlayerCubeController : MonoBehaviour
         {
             var position = cubeController.SelectedElementPosition;
             
-            _sequencer.QueueAction(new SetRotationAction(cubeRotator, direction, 0.3f), () =>
+            _sequencer.QueueAction(new SetRotationAction(cubeRotator, direction, settingActionTime.Value), () =>
             {
                 if (position.HasValue)
                 {
@@ -168,7 +168,7 @@ public class PlayerCubeController : MonoBehaviour
 
     public void Tilt(float direction, bool snap)
     {
-        _sequencer.QueueAction(new SnapAndTiltAction(rotationController, cubeRotator, (int)direction, 0.3f));
+        _sequencer.QueueAction(new SnapAndTiltAction(rotationController, cubeRotator, (int)direction, settingActionTime.Value));
     }
 
     public void StartRotation()
@@ -181,13 +181,19 @@ public class PlayerCubeController : MonoBehaviour
         }
     }
 
+    public void RotateCube(Vector2 mouseDelta)
+    {
+        rotationController.Rotate(mouseDelta, Time.deltaTime * settingMouseRotation.Value);
+    }
+
     public void ExecuteRotation(Vector2 mouseDelta)
     {
         _totalDragLength += mouseDelta.magnitude;
         if (_totalDragLength < errorMargin)
             return;
-        
-        cubeRotator.RotateByCameraDirection(mouseDelta, Time.deltaTime * mouseRotationSpeed);
+
+        Debug.Log(settingMouseDrag.Value);
+        cubeRotator.RotateByCameraDirection(mouseDelta, Time.deltaTime * settingMouseDrag.Value);
     }
 
     public void EndRotation() => cubeRotator.EndRotationDrag();

@@ -8,15 +8,27 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        PauseMenuManager.onPause += inputController.DisableInput;
-        PauseMenuManager.onUnpause += inputController.EnableInput;
+        PauseMenuManager.onPause += DisableInput;
+        PauseMenuManager.onUnpause += EnableInput;
 
-        cubeController.onCubeSolved += inputController.DisableInput;
+        cubeController.onCubeSolved += DisableInput;
     }
 
     private void OnDestroy()
     {
-        PauseMenuManager.onPause -= inputController.DisableInput;
-        PauseMenuManager.onUnpause -= inputController.EnableInput;
+        PauseMenuManager.onPause -= DisableInput;
+        PauseMenuManager.onUnpause -= EnableInput;
+    }
+
+    private void EnableInput()
+    {
+        inputController.EnableInput();
+        cubeInputController.EnableInput();
+    }
+
+    private void DisableInput()
+    {
+        inputController.DisableInput();
+        cubeInputController.DisableInput();
     }
 }

@@ -53,16 +53,17 @@ namespace YNQ.Settings.UI
         {
             settingsObject.gameObject.SetActive(true);
             
-            loadingBox.anchorMin = startAnchor.Min;
-            loadingBox.anchorMax = startAnchor.Max;
+            //loadingBox.anchorMin = startAnchor.Min;
+            //loadingBox.anchorMax = startAnchor.Max;
             
-            RegisterAnimation(ShowAnimation());
-            textSequenceRoutine = StartCoroutine(TextSequence());
+            //RegisterAnimation(ShowAnimation());
+            //textSequenceRoutine = StartCoroutine(TextSequence());
         }
 
         public void PlayHideAnimation()
         {
-            RegisterAnimation(HideAnimation());
+            settingsObject.gameObject.SetActive(false);
+            //RegisterAnimation(HideAnimation());
         }
 
         private IEnumerator TextSequence()
@@ -122,7 +123,7 @@ namespace YNQ.Settings.UI
 
             settingsCanvasGroup.alpha = 0;
 
-            for (var i = 0; i < hideAnchorSequence.Length; i++)
+            /*for (var i = 0; i < hideAnchorSequence.Length; i++)
             {
                 loadingBox.DOAnchorMin(hideAnchorSequence[i].Min, hideFrameDuration)
                 .SetEase(Ease.OutSine)
@@ -133,7 +134,7 @@ namespace YNQ.Settings.UI
                     .SetUpdate(true);
 
                 yield return new WaitForSecondsRealtime(hideFrameDuration);
-            }
+            }*/
 
             loadingImage.DOFade(1, hideAnimDuration)
                 .SetUpdate(true);

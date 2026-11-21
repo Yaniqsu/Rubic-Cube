@@ -1,11 +1,9 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ObjectRotationController : MonoBehaviour
 {
     [SerializeField] private Transform objTransform;
-    [SerializeField] private float speed;
 
     private Transform _cameraTransform;
 
@@ -17,8 +15,6 @@ public class ObjectRotationController : MonoBehaviour
     {
         _cameraTransform = Camera.main.transform;
     }
-
-    public void Rotate(Vector2 delta) => Rotate(delta, speed);
 
     public void Rotate(Vector2 delta, float speed)
     {

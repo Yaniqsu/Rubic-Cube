@@ -28,7 +28,7 @@ namespace YNQ.Settings
 			menuManager.onBack.AddListener(Back);
 			menuManager.onShowAnimationEnd.AddListener(() => onShowAnimationEnd?.Invoke());
 
-			animator.onBackAnimationEnd.AddListener(onBackFinished.Invoke);
+			//animator.onBackAnimationEnd.AddListener(onBackFinished.Invoke);
 
             if (SettingsSaveManager.CanLoad())
             {
@@ -52,12 +52,8 @@ namespace YNQ.Settings
 			if (!database.IsDirty())
 				return;
 			
-			dialogBox.Show(changesAppliedContent);
-
-			dialogBox.OnPositiveButtonClicked += () => {
-				database.ApplyChanges();
-				SettingsSaveManager.Save(database.GetSave());
-			};
+			database.ApplyChanges();
+            SettingsSaveManager.Save(database.GetSave());
         }
 
 		private void Back()
@@ -88,6 +84,6 @@ namespace YNQ.Settings
         }
 
         void IMenuComponent.Back() => Back();
-		public bool CanGoBack() => !animator.Animating;
+		public bool CanGoBack() => true;// !animator.Animating;
     } 
 }

@@ -291,11 +291,11 @@ MonoBehaviour:
   cubeRotator: {fileID: 861858837}
   rotationController: {fileID: 458624281}
   mouseRaycastController: {fileID: 339917439}
-  freeRotationSpeed: 200
-  mouseRotationSpeed: 200
-  tiltSpeed: 200
-  snapAndRotateTime: 0.3
-  errorMargin: 0.3
+  settingFreeRotation: {fileID: 11400000, guid: 999b44346329e3e46ba49ef3b9e6fad8, type: 2}
+  settingMouseRotation: {fileID: 11400000, guid: e8a98e42ccfac744ab255977cf05cc90, type: 2}
+  settingMouseDrag: {fileID: 11400000, guid: c135128e1bfe7e74aaa969e71c6f9f0a, type: 2}
+  settingActionTime: {fileID: 11400000, guid: d06afdfc348c69d48ad94379a43bb291, type: 2}
+  errorMargin: 1
 --- !u!114 &339917437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,9 +611,9 @@ MonoBehaviour:
   onRotateObject:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 458624281}
-        m_TargetAssemblyTypeName: ObjectRotationController, Assembly-CSharp
-        m_MethodName: Rotate
+      - m_Target: {fileID: 339917436}
+        m_TargetAssemblyTypeName: PlayerCubeController, Assembly-CSharp
+        m_MethodName: RotateCube
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -728,7 +728,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   objTransform: {fileID: 1734498977}
-  speed: 0.5
 --- !u!114 &458624282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -757,7 +756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   inputController: {fileID: 458624279}
-  cubeInputController: {fileID: 0}
+  cubeInputController: {fileID: 339917437}
   cubeController: {fileID: 861858836}
 --- !u!1 &599392183
 GameObject:

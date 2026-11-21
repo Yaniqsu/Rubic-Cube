@@ -8,18 +8,22 @@ public static class CameraUtilities
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Init()
     {
-        SceneManager.activeSceneChanged += ChangeMainCamera;
+        ChangeMainCamera();
+        
+        SceneManager.activeSceneChanged += OnActiveSceneChanged;
         Application.quitting += OnApplicationQuit;
     }
 
-    private static void ChangeMainCamera(Scene scene1, Scene scene2)
+    private static void OnActiveSceneChanged(Scene from, Scene to) => ChangeMainCamera();
+
+    private static void ChangeMainCamera()
     {
         m_mainCamera = Camera.main;
     }
 
     private static void OnApplicationQuit()
     {
-        SceneManager.activeSceneChanged -= ChangeMainCamera;
+        SceneManager.activeSceneChanged -= OnActiveSceneChanged;
     }
 
     public static Vector3 GetRotationAxisFromDirection(Vector2 direction)

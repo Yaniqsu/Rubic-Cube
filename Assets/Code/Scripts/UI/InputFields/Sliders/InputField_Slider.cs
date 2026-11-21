@@ -68,7 +68,7 @@ namespace YNQ.InputField
 			if(Application.isPlaying && gameObject.activeInHierarchy)
 				TakeInputSelection();
 			this.value = value;
-			if(valueDisplay) valueDisplay.text = $"{value}";
+			if(valueDisplay) valueDisplay.text = $"{value:F2}";
 			NotifyValueChanged(value);
 		}
 
