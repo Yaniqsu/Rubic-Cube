@@ -74,6 +74,19 @@ public class CameraCubeRotator : ACubeRotator
         return localAxis;
     }
 
+    public Vector3 GetCameraOrientedDirection(Vector2 direction)
+    {
+        direction = new Vector2(-direction.y, direction.x);
+        
+        var dragDirection = CameraUtilities.GetRotationAxisFromDirection(direction);
+        var localDrag = cubeRoot.InverseTransformDirection(dragDirection).normalized;
+        var rotationAxis = Vector3.Cross(_elementNormal, localDrag).normalized;
+        var localAxis = transform.InverseTransformDirection(rotationAxis);
+        localAxis = localAxis.GetClosestAxis();
+
+        return localAxis;
+    }
+
     #region UTILITIES
 
     private static bool DirectionsMatch(Vector3 a, Vector3 b)

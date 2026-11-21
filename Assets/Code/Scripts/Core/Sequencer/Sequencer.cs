@@ -1,9 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace YNQ.Sequencer
 {
+    public struct SequenceActionData
+    {
+        public ISequenceAction action;
+        public Action onEnd;
+    }
+    
     public interface ISequenceAction
     {
         public void Start();
@@ -13,7 +20,7 @@ namespace YNQ.Sequencer
 
     public class Sequencer
     {
-        private readonly Queue<ISequenceAction> _actions = new();
+        private readonly Queue<SequenceActionData> _actions = new();
         private readonly MonoBehaviour _mono;
         private Coroutine _handleActionsRoutine;
 
@@ -22,9 +29,13 @@ namespace YNQ.Sequencer
             _mono = mono;
         }
 
-        public void QueueAction(ISequenceAction action)
+        public void QueueAction(ISequenceAction action, Action onEnd = null)
         {
-            _actions.Enqueue(action);
+            _actions.Enqueue(new SequenceActionData()
+            {
+                action = action,
+                onEnd = onEnd
+            });
 
             StartQueue();
         }
@@ -39,7 +50,8 @@ namespace YNQ.Sequencer
         {
             while (_actions.Count > 0)
             {
-                var action = _actions.Dequeue();
+                var data = _actions.Dequeue();
+                var action = data.action;
                 var elapsed = 0f;
 
                 action.Start();
@@ -51,6 +63,8 @@ namespace YNQ.Sequencer
                     elapsed += Time.deltaTime;
                     yield return null;
                 }
+
+                data.onEnd?.Invoke();
             }
 
             _handleActionsRoutine = null;

@@ -34,8 +34,8 @@ public class CubeInputController : AInputController
 
         RegisterInputAction(rotate, OnRotateStarted);
 
-        RegisterInputAction(moveVertical, OnMoveStarted);
-        RegisterInputAction(moveHorizontal, OnMoveStarted);
+        RegisterInputAction(moveVertical, OnMoveVerticalStarted);
+        RegisterInputAction(moveHorizontal, OnMoveHorizontalStarted);
 
         RegisterInputAction(tilt, CallOnTilt);
     }
@@ -74,24 +74,32 @@ public class CubeInputController : AInputController
     {
         var direction = context.ReadValue<float>();
         
+        OnTilt.Invoke(direction, true);
+    }
+
+    private void OnMoveVerticalStarted(InputAction.CallbackContext context)
+    {
+        var inputValue = context.ReadValue<float>();
+        var direction = new Vector2(0, inputValue).ToVector2Int();
+        
         switch (_currentMode)
         {
             case MoveMode.MoveSegment:
-                OnTilt.Invoke(direction, true);
+                OnMoveSelectedElement.Invoke(direction);
                 break;
         }
     }
 
-    private void OnMoveStarted(InputAction.CallbackContext context)
+    private void OnMoveHorizontalStarted(InputAction.CallbackContext context)
     {
-        //var inputValue = context.ReadValue<Vector2>();
-        //var direction = inputValue.ToVector2Int();
-        //
-        //switch (_currentMode)
-        //{
-        //    case MoveMode.MoveSegment:
-        //        OnMoveSelectedElement.Invoke(direction);
-        //        break;
-        //}
+        var inputValue = context.ReadValue<float>();
+        var direction = new Vector2(inputValue, 0).ToVector2Int();
+
+        switch (_currentMode)
+        {
+            case MoveMode.MoveSegment:
+                OnMoveSelectedElement.Invoke(direction);
+                break;
+        }
     }
 }

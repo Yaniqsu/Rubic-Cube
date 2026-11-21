@@ -8,10 +8,12 @@ public class MouseRaycastController : MonoBehaviour
     [Space]
     [SerializeField] private bool startAutomatically;
     [SerializeField] private float interval;
+    [SerializeField] private bool updateWhenMouseNotMoving;
     
     private Camera _main;
     private WaitForSeconds _wait;
     private Coroutine _checkRoutine;
+    private Vector3 _lastMousePosition;
 
     public bool HitLastCheck { get; private set; }
     public RaycastHit LastHitInfo { get; private set; }
@@ -54,7 +56,14 @@ public class MouseRaycastController : MonoBehaviour
 
     private void DoRaycast()
     {
-        var ray = _main.ScreenPointToRay(Input.mousePosition);
+        var mousePosition = Input.mousePosition;
+
+        if (!updateWhenMouseNotMoving && mousePosition == _lastMousePosition)
+            return;
+
+        _lastMousePosition = mousePosition;
+        
+        var ray = _main.ScreenPointToRay(mousePosition);
         HitLastCheck = Physics.Raycast(ray, out var hitInfo, float.PositiveInfinity, targetLayer);
 
         if(HitLastCheck)

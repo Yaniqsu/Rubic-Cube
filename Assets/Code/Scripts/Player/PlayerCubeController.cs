@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using YNQ.Sequencer;
 
@@ -42,7 +43,7 @@ public class SetRotationAction : ISequenceAction
     {
         _rotator = rotator;
         _direction = direction;
-        _time = time;
+        _time = time + 0.05f;
         _elapsed = 0;
     }
 
@@ -139,13 +140,30 @@ public class PlayerCubeController : MonoBehaviour
     {
         if(cubeController.HasSelectedElement)
         {
-            _sequencer.QueueAction(new SetRotationAction(cubeRotator, direction, 0.3f));
+            var position = cubeController.SelectedElementPosition;
+            
+            _sequencer.QueueAction(new SetRotationAction(cubeRotator, direction, 0.3f), () =>
+            {
+                if (position.HasValue)
+                {
+                    cubeController.SetSelectedElement(position.Value);
+                }
+            });
         }
     }
 
-    public void MoveSelectedElement(Vector2Int direction)
+    public void MoveSelectedElement(Vector2 direction)
     {
+        cubeController.ValidateSelectedElement();
 
+        if(cubeController.HasSelectedElement)
+        {
+            cubeController.MoveSelection(direction);
+        }
+        else
+        {
+            cubeController.SelectMiddleElement();
+        }
     }
 
     public void Tilt(float direction, bool snap)

@@ -347,7 +347,19 @@ MonoBehaviour:
         m_CallState: 2
   OnMoveSelectedElement:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 339917436}
+        m_TargetAssemblyTypeName: PlayerCubeController, Assembly-CSharp
+        m_MethodName: MoveSelectedElement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnTilt:
     m_PersistentCalls:
       m_Calls:
@@ -395,6 +407,7 @@ MonoBehaviour:
     m_Bits: 64
   startAutomatically: 1
   interval: 0.01
+  updateWhenMouseNotMoving: 0
   OnCheck:
     m_PersistentCalls:
       m_Calls: []
@@ -1006,7 +1019,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CubeController
   spawner: {fileID: 861858835}
   rotator: {fileID: 861858837}
-  defaultSize: 3
+  cubeRoot: {fileID: 1734498977}
+  defaultSize: 4
   randomizeTurns: 0
 --- !u!114 &861858837
 MonoBehaviour:

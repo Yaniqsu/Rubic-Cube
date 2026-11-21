@@ -7,6 +7,11 @@ public static class VectorUtilities
         return new Vector2Int((int)vec.x, (int)vec.y);
     }
 
+    public static Vector3Int ToVector3Int(this Vector3 vec)
+    {
+        return new Vector3Int((int)vec.x, (int)vec.y, (int)vec.z);
+    }
+
     public static Vector3 GetClosestAxis(this Vector3 axis)
     {
         var abs = new Vector3(
