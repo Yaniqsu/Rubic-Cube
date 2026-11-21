@@ -13,20 +13,20 @@ public class CubeRotator : MonoBehaviour
     private CubeElement[] _elements;
     private CubeElement[] _elementsToRotate = Array.Empty<CubeElement>();
     private CoroutineSequencer _moveSegmentSequencer;
-
-    private int _size;
-
     private Vector3 _setRotationAxis;
     private Vector3 _totalRotation;
     private Vector3Int? _elementPosition;
     private Vector3 _elementNormal;
+    private int _size;
 
     public Quaternion CameraRelativeRotation => CameraUtilities.GetCameraRelativeRotation(cubeRoot.localRotation);
     public Vector3 CameraRelativeRotationEuler => CameraRelativeRotation.eulerAngles;
     public bool Rotating { get; private set; }
 
+
     public event Action OnRotationEnd;
     public event Action<CubeRotationData> OnMove;
+
 
     private void Awake()
     {
@@ -90,6 +90,15 @@ public class CubeRotator : MonoBehaviour
 
         RotateElements(speed * localAxis);
     }
+    private void RotateByCameraDirectionInTime(Vector2 direction, float speed, float time, Action onEnd = null)
+    {
+        var localAxis = GetRotationAxis(direction);
+
+        ChooseRotationAxis(localAxis);
+
+        _totalRotation += speed * localAxis;
+        _moveSegmentSequencer.AddCoroutine(RotateByAxisInTime(speed * localAxis, time), onEnd);
+    }
 
     public void SetRotationByAxis(Vector3Int elementPos, Vector3 axis)
     {
@@ -107,16 +116,6 @@ public class CubeRotator : MonoBehaviour
         CleanAfterRotation();
 
         _totalRotation = Vector3.zero;
-    }
-
-    private void RotateByCameraDirectionInTime(Vector2 direction, float speed, float time, Action onEnd = null)
-    {
-        var localAxis = GetRotationAxis(direction);
-
-        ChooseRotationAxis(localAxis);
-
-        _totalRotation += speed * localAxis;
-        _moveSegmentSequencer.AddCoroutine(RotateByAxisInTime(speed * localAxis, time), onEnd);
     }
 
     private IEnumerator RotateByAxisInTime(Vector3 rotationEuler, float time)
