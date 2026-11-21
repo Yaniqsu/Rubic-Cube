@@ -4,67 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CoroutineSequencer
-{
-    private struct RoutineData
-    {
-        public IEnumerator enumerator;
-        public Action onEnd;
-    }
-    
-    private readonly Queue<RoutineData> _queue;
-    private readonly MonoBehaviour _mono;
-    private Coroutine _sequenceRoutine;
-
-    public CoroutineSequencer(MonoBehaviour mono)
-    {
-        _mono = mono;
-        _queue = new Queue<RoutineData>();
-    }
-
-    public void AddCoroutine(IEnumerator enumerator, Action onEnd = null)
-    {
-        _queue.Enqueue(new RoutineData { enumerator = enumerator, onEnd = onEnd });
-
-        StartSequence();
-    }
-
-    private void StartSequence()
-    {
-        if(_sequenceRoutine == null) 
-            _sequenceRoutine = _mono.StartCoroutine(SequenceRoutine());
-    }
-
-    private IEnumerator SequenceRoutine()
-    {
-        while(_queue.Count > 0)
-        {
-            var data = _queue.Dequeue();
-            
-            yield return data.enumerator;
-
-            data.onEnd?.Invoke();
-        }
-
-        _sequenceRoutine = null;
-    }
-}
-
 public class CubeRotator : MonoBehaviour
 {
     [SerializeField] private Transform cubeRoot;
     [SerializeField] private LayerMask cubeLayer;
     [SerializeField] private Transform pivot;
 
-    private CubeController _cubeController;
     private CubeElement[] _elements;
     private CoroutineSequencer _moveSegmentSequencer;
 
     private int _size;
     private Vector3 _setRotationAxis;
-    private Vector3Int _elementPosition;
-    private Vector3 _elementFaceNormal;
     private Vector3 _totalRotation;
+    private Vector3Int? _elementPosition;
+    private Vector3 _elementNormal;
 
     private CubeElement[] _elementsToRotate = Array.Empty<CubeElement>();
 
@@ -80,9 +33,23 @@ public class CubeRotator : MonoBehaviour
         _moveSegmentSequencer = new CoroutineSequencer(this);
     }
 
-    public void StartRotationDrag(CubeController cubeController, CubeElement[] elements, int size)
+    public void Initialize(CubeElement[] elements, int size)
     {
-        _cubeController = cubeController;
+        _elements = elements;
+        _size = size;
+    }
+    public void SetSelectedElement(CubeElement element)
+    {
+        _elementPosition = element ? element.Position : null;
+    }
+
+    public void SetSelectedElementNormal(Vector3 normal)
+    {
+        _elementNormal = cubeRoot.InverseTransformDirection(normal).normalized;
+    }
+
+    public void StartRotationDrag(CubeElement[] elements, int size)
+    {
         _elements = elements;
         _size = size;
     }
@@ -92,7 +59,7 @@ public class CubeRotator : MonoBehaviour
         CleanAfterRotation();
 
         if (_totalRotation.magnitude >= 90)
-            OnMove?.Invoke(new CubeRotationData() { elementPos = _elementPosition, axis = _totalRotation });
+            OnMove?.Invoke(new CubeRotationData() { elementPos = _elementPosition.Value, axis = _totalRotation });
 
         _totalRotation = Vector3.zero;
         OnRotationEnd?.Invoke();
@@ -100,10 +67,10 @@ public class CubeRotator : MonoBehaviour
 
     public void SetRotationByCameraDirection(Vector2 direction, float time)
     {
-        if (!_cubeController.CurrentSelectedElement)
+        if (!_elementPosition.HasValue)
             return;
         
-        InitializeRotation(_cubeController.CurrentSelectedElement, _cubeController.ElementFaceNormal);
+        InitializeRotation();
         
         RotateByCameraDirectionInTime(direction, 90f, time, EndRotationDrag);
     }
@@ -194,10 +161,8 @@ public class CubeRotator : MonoBehaviour
         Rotating = false;
     }
 
-    public void InitializeRotation(CubeElement element, Vector3 normal)
+    public void InitializeRotation()
     {
-        _elementPosition = element.Position;
-        _elementFaceNormal = cubeRoot.InverseTransformDirection(normal).normalized;
         Rotating = true;
         _totalRotation = Vector3.zero;
 
@@ -213,7 +178,7 @@ public class CubeRotator : MonoBehaviour
     private void ChooseRotationAxis(Vector3 axis)
     {
         _setRotationAxis = axis;
-        _elementsToRotate = GetElementsToRotate(_elementPosition, axis).ToArray();
+        _elementsToRotate = GetElementsToRotate(_elementPosition.Value, axis).ToArray();
         foreach (var e in _elementsToRotate)
         {
             e.transform.SetParent(pivot);
@@ -285,7 +250,7 @@ public class CubeRotator : MonoBehaviour
     {
         var dragDirection = CameraUtilities.GetRotationAxisFromDirection(direction);
         var localDrag = cubeRoot.InverseTransformDirection(dragDirection).normalized;
-        var rotationAxis = Vector3.Cross(_elementFaceNormal, localDrag).normalized;
+        var rotationAxis = Vector3.Cross(_elementNormal, localDrag).normalized;
         var localAxis = transform.InverseTransformDirection(rotationAxis);
         localAxis = localAxis.GetClosestAxis();
 

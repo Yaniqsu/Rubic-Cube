@@ -30,7 +30,7 @@ public class CubeController : MonoBehaviour
         
         _elements = spawner.SpawnCube(Size).ToArray();
 
-        rotator.StartRotationDrag(this, _elements, Size);
+        rotator.Initialize(_elements, Size);
         rotator.OnMove += OnMove;
         if (randomizedTurns > 0) rotator.OnRotationEnd += OnRotationEnd;
         
@@ -108,6 +108,9 @@ public class CubeController : MonoBehaviour
         
         CurrentSelectedElement = element;
         ElementFaceNormal = normal;
+
+        rotator.SetSelectedElement(CurrentSelectedElement);
+        rotator.SetSelectedElementNormal(ElementFaceNormal);
 
         if(CurrentSelectedElement)
             CurrentSelectedElement.ToggleHighlight(true);

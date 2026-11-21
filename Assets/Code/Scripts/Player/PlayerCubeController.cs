@@ -62,7 +62,7 @@ public class PlayerCubeController : MonoBehaviour
         {
             _totalDragLength = 0;
             
-            cubeRotator.InitializeRotation(cubeController.CurrentSelectedElement, cubeController.ElementFaceNormal);
+            cubeRotator.InitializeRotation();
         }
     }
 
