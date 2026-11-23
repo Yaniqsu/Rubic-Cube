@@ -390,6 +390,78 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuMusicManager
   mainMenuMusic: {fileID: 6418180475301049370, guid: ea089913d68ef0543ab3503af668ddfe, type: 2}
+--- !u!1 &122751902
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 122751903}
+  - component: {fileID: 122751904}
+  - component: {fileID: 122751905}
+  m_Layer: 0
+  m_Name: Runtime Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &122751903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122751902}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &122751904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122751902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d29b18f8dec1fa4caf409e6d8ae51f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioSettings
+  mixer: {fileID: 24100000, guid: ac69033b5957852488bfc91b5dec80d6, type: 2}
+  settings:
+  - audioSetting: {fileID: 11400000, guid: ecae60bd2549281418f8503c807957a2, type: 2}
+    mixerGroup: {fileID: 24300002, guid: ac69033b5957852488bfc91b5dec80d6, type: 2}
+  - audioSetting: {fileID: 11400000, guid: 7f4b8fe684469bc4cba912cf480c443f, type: 2}
+    mixerGroup: {fileID: -680331618537545497, guid: ac69033b5957852488bfc91b5dec80d6, type: 2}
+  - audioSetting: {fileID: 11400000, guid: 9a636a50996554c49b18816b5d1485ab, type: 2}
+    mixerGroup: {fileID: 1077750455909906678, guid: ac69033b5957852488bfc91b5dec80d6, type: 2}
+  - audioSetting: {fileID: 11400000, guid: d642d2e46525100458af64df49ea0b6e, type: 2}
+    mixerGroup: {fileID: -3151213387717947206, guid: ac69033b5957852488bfc91b5dec80d6, type: 2}
+--- !u!114 &122751905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122751902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ff1769454db6f42861a2f99795ac20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControlsRuntimeManager
+  bindings:
+  - {fileID: 11400000, guid: 1ff5ab6b45626374aa2045d08e24aabc, type: 2}
+  - {fileID: 11400000, guid: 66ca905eb3119f74ba7a2226298312b8, type: 2}
+  - {fileID: 11400000, guid: 0bb387cc3258685468e3d53ce1f06fb4, type: 2}
+  - {fileID: 11400000, guid: e14002190a9b2ff40a7d448f4e0a6c40, type: 2}
 --- !u!1001 &195429200
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4262,11 +4334,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3585175208092425075, guid: 991b7aa48a571ad4f98a9600e55fd881, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -8336440
+      value: -9051600
       objectReference: {fileID: 0}
     - target: {fileID: 3585175208092425075, guid: 991b7aa48a571ad4f98a9600e55fd881, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 6122040
+      value: 6648500
       objectReference: {fileID: 0}
     - target: {fileID: 4161901272152013209, guid: 991b7aa48a571ad4f98a9600e55fd881, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4628,3 +4700,4 @@ SceneRoots:
   - {fileID: 683964955}
   - {fileID: 68140898}
   - {fileID: 1712773263}
+  - {fileID: 122751903}
