@@ -80,9 +80,11 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
   text: 
-  baseColor: {r: 0, g: 0, b: 0, a: 0.6}
+  baseColor: {r: 0, g: 0, b: 0, a: 0.7}
   hoveredWidth: 220
   tmp: {fileID: 8783721412857417678}
+  hoverSound: {fileID: 6418180475301049370, guid: 101551b23f620944387f4872829f8bd8, type: 2}
+  pressSound: {fileID: 6418180475301049370, guid: a4022fc91c7639c42b74a4ced85a8b12, type: 2}
   defaultFormat: '%T'
   hoveredFormat: '%T'
   onClick:
@@ -238,7 +240,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 0.6}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 0.7}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

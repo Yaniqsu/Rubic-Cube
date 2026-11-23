@@ -1,6 +1,8 @@
 using DG.Tweening;
+using SoundSystem;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,6 +14,8 @@ public class TextButton : Selectable
     [SerializeField] protected Color baseColor;
     [SerializeField] private float hoveredWidth;
     [SerializeField] protected TextMeshProUGUI tmp;
+    [SerializeField] private AudioResource hoverSound;
+    [SerializeField] private AudioResource pressSound;
     [SerializeField] protected string defaultFormat = "%T";
     [SerializeField] protected string hoveredFormat = "%T";
 
@@ -68,6 +72,8 @@ public class TextButton : Selectable
         base.OnPointerDown(eventData);
 
         onClick.Invoke();
+
+        AudioManager.PlayAudio(pressSound, MixerGroups.UI);
     }
     protected void ReformatText(string format) => SetText(format.Replace("%T", text));
 
@@ -77,6 +83,8 @@ public class TextButton : Selectable
         tmp.DOFade(1, 0.5f).SetUpdate(true);
 
         ReformatText(hoveredFormat);
+
+        AudioManager.PlayAudio(hoverSound, MixerGroups.UI);
     }
 
     public override void OnPointerExit(PointerEventData eventData)

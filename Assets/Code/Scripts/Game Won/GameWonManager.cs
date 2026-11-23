@@ -1,13 +1,18 @@
+using SoundSystem;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class GameWonManager : MonoBehaviour
 {
+    [SerializeField] private AudioResource gameWonSound;
     [SerializeField] private GameWonUIManager uiManager;
     
     
     public void Show()
     {
+        AudioManager.PlayAudio(gameWonSound, MixerGroups.UI);
+        
         uiManager.Show();
     }
 

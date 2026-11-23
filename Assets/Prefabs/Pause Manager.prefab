@@ -52,6 +52,7 @@ MonoBehaviour:
   dialogBox: {fileID: 7238509990306946989}
   goToMainMenuContent: {fileID: 11400000, guid: 50218e169239f1e4dbc6405e704f68eb, type: 2}
   quitContent: {fileID: 11400000, guid: fc0be88237be75a4da2b1dc8ea6840c0, type: 2}
+  showSound: {fileID: 6418180475301049370, guid: 6d081885582a80e40a0fafc77d787141, type: 2}
 --- !u!114 &5480980647123321549
 MonoBehaviour:
   m_ObjectHideFlags: 0

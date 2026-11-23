@@ -1,5 +1,7 @@
 using System;
+using SoundSystem;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using YNQ.Settings;
 
@@ -10,6 +12,7 @@ public class PauseMenuManager : AMenuManager
     [SerializeField] private DialogBox dialogBox;
     [SerializeField] private DialogContent goToMainMenuContent;
     [SerializeField] private DialogContent quitContent;
+    [SerializeField] private AudioResource showSound;
 
     private bool _paused;
 
@@ -58,6 +61,7 @@ public class PauseMenuManager : AMenuManager
     {
         Time.timeScale = 0;
         _paused = true;
+        AudioManager.PlayAudio(showSound, MixerGroups.UI);
 
         menuUI.Show();
 

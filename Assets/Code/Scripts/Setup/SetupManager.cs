@@ -1,6 +1,8 @@
 using System.Linq;
 using DG.Tweening;
+using SoundSystem;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YNQ.InputField;
@@ -14,6 +16,8 @@ public class SetupManager : MonoBehaviour, IMenuComponent
     [SerializeField] private SkyboxReference skyboxReference;
     [SerializeField] private DifficultyPresets difficultyPresets;
     [SerializeField] private GameObject solvedDifficultyInfo;
+    [SerializeField] private AudioResource moveSound;
+    [SerializeField] private AudioResource startGameSound;
 
     [Space]
     [SerializeField] private InputField_Slider cubeSize;
@@ -44,6 +48,8 @@ public class SetupManager : MonoBehaviour, IMenuComponent
         setupObject.DOAnchorPosY(0, 0.5f);
 
         cubeSize.SetValue(3);
+
+        AudioManager.PlayAudio(moveSound, MixerGroups.UI);
     }
 
     public void Back()
@@ -51,6 +57,8 @@ public class SetupManager : MonoBehaviour, IMenuComponent
         objectCanvasGroup.DOFade(0, 0.5f);
         blocker.DOFade(0, 0.5f);
         setupObject.DOAnchorPosY(100, 0.5f).onComplete += () => setupCanvas.enabled = false;
+
+        AudioManager.PlayAudio(moveSound, MixerGroups.UI);
     }
 
     public void Play()
@@ -60,7 +68,9 @@ public class SetupManager : MonoBehaviour, IMenuComponent
         GameRequest.environmentIndex = environment.Value;
         GameRequest.randomizeTurns = difficultyPresets.GetTurns(difficultyPresetsInputField.Value);
 
-        SceneManager.LoadScene("Game Scene");
+        AudioManager.PlayAudio(startGameSound, MixerGroups.UI);
+
+        SceneManager.LoadSceneAsync("Game Scene");
     }
 
     public bool CanGoBack() => true;

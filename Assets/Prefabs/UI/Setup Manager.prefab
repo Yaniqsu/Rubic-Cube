@@ -1006,6 +1006,8 @@ MonoBehaviour:
   skyboxReference: {fileID: 11400000, guid: a99617679b09d244fae976ac72cd6302, type: 2}
   difficultyPresets: {fileID: 11400000, guid: 3a6521a90eecadb4da5b24f87de57527, type: 2}
   solvedDifficultyInfo: {fileID: 4707961339500559202}
+  moveSound: {fileID: 6418180475301049370, guid: c05197e04b9106146bc87989db968960, type: 2}
+  startGameSound: {fileID: 6418180475301049370, guid: 5218770b7ef440c40941077887f54e0b, type: 2}
   cubeSize: {fileID: 6413667976277656034}
   speedrunMode: {fileID: 3624511155195825525}
   environment: {fileID: 4240319256244409606}

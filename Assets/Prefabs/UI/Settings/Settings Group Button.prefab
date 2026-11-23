@@ -114,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 3439329279
+      value: 3003121663
       objectReference: {fileID: 0}
     - target: {fileID: 8783721412857417678, guid: 656a0f1a40089bb4bb8c102ff8fdba93, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -176,9 +176,11 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
   text: Settings Group
-  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  baseColor: {r: 1, g: 1, b: 1, a: 0.7}
   hoveredWidth: 0
   tmp: {fileID: 3214654637532798384}
+  hoverSound: {fileID: 6418180475301049370, guid: 101551b23f620944387f4872829f8bd8, type: 2}
+  pressSound: {fileID: 6418180475301049370, guid: a4022fc91c7639c42b74a4ced85a8b12, type: 2}
   defaultFormat: '%T'
   hoveredFormat: '%T'
   onClick:

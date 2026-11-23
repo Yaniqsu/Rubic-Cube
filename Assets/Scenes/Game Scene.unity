@@ -919,6 +919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e63a457ca9ca94fbc3abd77afb879a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameWonManager
+  gameWonSound: {fileID: 6418180475301049370, guid: 763ca01de96f9ac429258b1e3c3ae1d7, type: 2}
   uiManager: {fileID: 619694221}
 --- !u!1 &832575517
 GameObject:
