@@ -310,6 +310,7 @@ GameObject:
   - component: {fileID: 77541148}
   - component: {fileID: 77541149}
   - component: {fileID: 77541150}
+  - component: {fileID: 77541151}
   m_Layer: 0
   m_Name: Main Menu Manager
   m_TagString: Untagged
@@ -376,6 +377,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &77541151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77541147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40904c8e6953a1c459454a9c3dcb1959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenuMusicManager
+  mainMenuMusic: {fileID: 6418180475301049370, guid: ea089913d68ef0543ab3503af668ddfe, type: 2}
 --- !u!1001 &195429200
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4248,11 +4262,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3585175208092425075, guid: 991b7aa48a571ad4f98a9600e55fd881, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -7509180
+      value: -8336440
       objectReference: {fileID: 0}
     - target: {fileID: 3585175208092425075, guid: 991b7aa48a571ad4f98a9600e55fd881, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 5512580
+      value: 6122040
       objectReference: {fileID: 0}
     - target: {fileID: 4161901272152013209, guid: 991b7aa48a571ad4f98a9600e55fd881, type: 3}
       propertyPath: m_AnchorMax.y
