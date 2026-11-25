@@ -129,11 +129,11 @@ namespace SoundSystem
                 process.tag = string.Empty;
                 
                 if(expireTime == 0)
-                    process.audioHandler?.Stop();
+                    StopProcess(process);
                 else
                 {
                     process.stopping = true;
-                    ChangeCoroutineOnSoundProcesses(soundTag, StartCoroutine(StopSoundCoroutine(process.audioHandler, expireTime)));
+                    ChangeCoroutineOnSoundProcesses(soundTag, StartCoroutine(StopSoundCoroutine(process, expireTime)));
                 }
             }
         }
@@ -211,12 +211,15 @@ namespace SoundSystem
         {
             return mixerGroups.FirstOrDefault(g => g.groupEnum == group).mixerGroup;
         }
-        private static IEnumerator StopSoundCoroutine(AudioHandler handler, float expireTime)
+        private IEnumerator StopSoundCoroutine(SoundProcess process, float expireTime)
         {
             yield return null;
+
+            var handler = process.audioHandler;
             
             if (handler == null)
                 yield break;
+
             
             float currentTime = 0;
             while(currentTime < expireTime)
@@ -227,7 +230,8 @@ namespace SoundSystem
             }
 
             handler.VolumeLevel = 0;
-            handler.Stop();
+
+            StopProcess(process);
         }
         private static IEnumerator EmergeSource(AudioHandler handler, float emergencyTime, float volumeLevel)
         {
@@ -264,18 +268,18 @@ namespace SoundSystem
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        private void StopProcess(SoundProcess proccess)
+        private void StopProcess(SoundProcess process)
         {
-            if (!_soundProcesses.Contains(proccess))
+            if (!_soundProcesses.Contains(process))
                 return;
 
-            if (proccess.audioHandler)
+            if (process.audioHandler)
             {
-                proccess.audioHandler.Stop();
-                proccess.audioHandler.gameObject.SetActive(false);
+                process.audioHandler.Stop();
+                process.audioHandler.gameObject.SetActive(false);
             }
            
-            _processesToStopCoroutine.Add(proccess);
+            _processesToStopCoroutine.Add(process);
         }
         private AudioMixerGroup GetAudioMixerGroup(MixerGroups mixerGroup) 
             => mixerGroups

@@ -24,6 +24,7 @@ public class CubeController : MonoBehaviour
     public event Action onCubeSolved;
     public event Action onMove;
     public event Action onUndo;
+    public event Action OnMoveSelection;
 
     public void Initialize(int randomizedTurns)
     {
@@ -34,7 +35,7 @@ public class CubeController : MonoBehaviour
 
         rotator.Initialize(_elements, Size);
         rotator.OnMove += OnMove;
-        if (randomizedTurns > 0) rotator.OnRotationEnd += OnRotationEnd;
+        if (randomizedTurns > 0) rotator.OnEndRotation += OnRotationEnd;
         
         Randomize(randomizedTurns == 0 ? randomizeTurns : randomizedTurns);
     }
@@ -134,7 +135,10 @@ public class CubeController : MonoBehaviour
         var newElement = GetElement(newPosition);
 
         if (newElement)
+        {
             ChangeSelectedElement(newElement, ElementFaceNormal);
+            OnMoveSelection?.Invoke();
+        }
     }
 
     public void SelectMiddleElement()

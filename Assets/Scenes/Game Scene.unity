@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCubeController
   cubeController: {fileID: 861858836}
+  cubeAudioController: {fileID: 861858838}
   cubeRotator: {fileID: 861858837}
   rotationController: {fileID: 458624281}
   mouseRaycastController: {fileID: 339917439}
@@ -597,6 +598,7 @@ GameObject:
   - component: {fileID: 458624279}
   - component: {fileID: 458624281}
   - component: {fileID: 458624282}
+  - component: {fileID: 458624284}
   m_Layer: 0
   m_Name: Player Controller
   m_TagString: Untagged
@@ -773,6 +775,21 @@ MonoBehaviour:
   inputController: {fileID: 458624279}
   cubeInputController: {fileID: 339917437}
   cubeController: {fileID: 861858836}
+--- !u!114 &458624284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458624278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b763bba7700d65748b2e5682826abe4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectRotationAudioController
+  rotationController: {fileID: 458624281}
+  snapAndRotateSound: {fileID: 6418180475301049370, guid: 7ac19e6b5a756314fbeccd3597198a0a, type: 2}
+  snapAndTiltSound: {fileID: 6418180475301049370, guid: db0434da94682d44b959e6fd9c08595f, type: 2}
 --- !u!1 &599392183
 GameObject:
   m_ObjectHideFlags: 0
@@ -982,6 +999,7 @@ GameObject:
   - component: {fileID: 861858836}
   - component: {fileID: 861858837}
   - component: {fileID: 861858835}
+  - component: {fileID: 861858838}
   m_Layer: 0
   m_Name: Cube Controller
   m_TagString: Untagged
@@ -1053,6 +1071,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   pivot: {fileID: 2063528721}
+--- !u!114 &861858838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861858833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac29b4aef9505044979e60a5c119b66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CubeAudioController
+  cubeRotator: {fileID: 861858837}
+  cubeController: {fileID: 861858836}
+  moveSegmentSound: {fileID: 6418180475301049370, guid: bc019bca162a1b14098d4bf589cfaf1f, type: 2}
+  snapSound: {fileID: 6418180475301049370, guid: 269c56999eb5cb34f8b484bff49f0f79, type: 2}
+  changeSelectionSound: {fileID: 6418180475301049370, guid: 804b90c3bdac41f42af6d06619990303, type: 2}
 --- !u!1 &920705160
 GameObject:
   m_ObjectHideFlags: 0

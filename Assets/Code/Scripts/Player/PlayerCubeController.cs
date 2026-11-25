@@ -1,4 +1,6 @@
+using SoundSystem;
 using UnityEngine;
+using UnityEngine.Audio;
 using YNQ.Sequencer;
 using YNQ.Settings.SettingField;
 
@@ -10,7 +12,9 @@ public class RotateCubeAction : ISequenceAction
     private readonly float _time;
     private float _elapsed;
 
-    public RotateCubeAction(ObjectRotationController rotationController, CameraCubeRotator cubeRotator, Vector2Int direction, float time)
+    public RotateCubeAction(
+        ObjectRotationController rotationController, CameraCubeRotator cubeRotator, 
+        Vector2Int direction, float time)
     {
         _rotationController = rotationController;
         _cubeRotator = cubeRotator;
@@ -93,6 +97,7 @@ public class SnapAndTiltAction : ISequenceAction
 public class PlayerCubeController : MonoBehaviour
 {
     [SerializeField] private CubeController cubeController;
+    [SerializeField] private CubeAudioController cubeAudioController;
     [SerializeField] private CameraCubeRotator cubeRotator;
     [SerializeField] private ObjectRotationController rotationController;
     [SerializeField] private MouseRaycastController mouseRaycastController;
@@ -104,6 +109,7 @@ public class PlayerCubeController : MonoBehaviour
     [SerializeField] private float errorMargin;
 
     private float _totalDragLength;
+    private bool _dragging;
     private Sequencer _sequencer;
 
     private void Start()
@@ -188,12 +194,38 @@ public class PlayerCubeController : MonoBehaviour
 
     public void ExecuteRotation(Vector2 mouseDelta)
     {
-        _totalDragLength += mouseDelta.magnitude;
+        var magnitude = mouseDelta.magnitude;
+        
+        _totalDragLength += magnitude;
         if (_totalDragLength < errorMargin)
+        {
             return;
+        }
+
+        HandleDragSegmentAudio(mouseDelta.magnitude);
 
         cubeRotator.RotateByCameraDirection(mouseDelta, Time.deltaTime * settingMouseDrag.Value);
     }
 
     public void EndRotation() => cubeRotator.EndRotationDrag();
+
+    private void HandleDragSegmentAudio(float mouseDeltaMagnitude)
+    {
+        if (mouseDeltaMagnitude > 1.5f)
+        {
+            if (!_dragging)
+            {
+                _dragging = true;
+                cubeAudioController.ResumeMoveSound();
+            }
+        }
+        else if(mouseDeltaMagnitude == 0)
+        {
+            if (_dragging)
+            {
+                _dragging = false;
+                cubeAudioController.PauseMoveSound();
+            }
+        }
+    }
 }

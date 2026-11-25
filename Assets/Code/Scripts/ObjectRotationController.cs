@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ public class ObjectRotationController : MonoBehaviour
     public Vector3 RotationEuler => objTransform.localEulerAngles;
 
     private Coroutine _snapAndRotateRoutine;
+
+    public Action OnSnapAndRotate;
+    public Action OnSnapAndTilt;
 
     private void Start()
     {
@@ -27,6 +31,8 @@ public class ObjectRotationController : MonoBehaviour
             StopCoroutine(_snapAndRotateRoutine);
         
         _snapAndRotateRoutine = StartCoroutine(SnapAndRotateRoutine(rotation, direction, time));
+
+        OnSnapAndRotate?.Invoke();
     }
 
     public void SnapAndTilt(Vector3 rotation, int direction, float time)
@@ -35,6 +41,8 @@ public class ObjectRotationController : MonoBehaviour
             StopCoroutine(_snapAndRotateRoutine);
 
         _snapAndRotateRoutine = StartCoroutine(SnapAndTiltRoutine(rotation, -direction, time));
+
+        OnSnapAndTilt?.Invoke();
     }
 
     public void Tilt(float value)

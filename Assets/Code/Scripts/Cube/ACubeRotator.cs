@@ -20,8 +20,11 @@ public class ACubeRotator : MonoBehaviour
     public bool Rotating { get; private set; }
 
 
-    public event Action OnRotationEnd;
     public event Action<CubeRotationData> OnMove;
+
+    public Action OnStartRotation;
+    public Action OnEndRotation;
+    public Action OnSnap;
 
     public void Initialize(CubeElement[] elements, int size)
     {
@@ -43,6 +46,8 @@ public class ACubeRotator : MonoBehaviour
         _totalRotation = Vector3.zero;
 
         ResetRotationVariables();
+
+        OnStartRotation?.Invoke();
     }
     public void EndRotationDrag()
     {
@@ -52,7 +57,7 @@ public class ACubeRotator : MonoBehaviour
             OnMove?.Invoke(new CubeRotationData() { elementPos = _elementPosition.Value, axis = _totalRotation });
 
         _totalRotation = Vector3.zero;
-        OnRotationEnd?.Invoke();
+        OnEndRotation?.Invoke();
     }
 
     public void SetRotationByAxis(Vector3Int elementPos, Vector3 axis)
@@ -77,8 +82,9 @@ public class ACubeRotator : MonoBehaviour
     {
         var startRotation = pivot.localRotation;
         var endRotation = Quaternion.Euler(rotationEuler);
-
         var elapsed = 0f;
+
+        OnStartRotation?.Invoke();
 
         while (elapsed < time)
         {
@@ -91,6 +97,7 @@ public class ACubeRotator : MonoBehaviour
         pivot.localRotation = endRotation;
 
         onEnd?.Invoke();
+        OnEndRotation?.Invoke();
     }
 
     protected virtual void CleanAfterRotation()
@@ -139,6 +146,7 @@ public class ACubeRotator : MonoBehaviour
         );
 
         SetRotation(snappedRotation);
+        OnSnap?.Invoke();
     }
 
     protected void RotateElements(Vector3 axis)
