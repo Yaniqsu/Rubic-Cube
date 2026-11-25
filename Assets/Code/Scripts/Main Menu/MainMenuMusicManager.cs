@@ -8,11 +8,14 @@ public class MainMenuMusicManager : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.PlayAudio(mainMenuMusic, GlobalAudioTags.LevelMusic, MixerGroups.Music, new PlaySettings()
+        if (!AudioManager.Instance.IsPlaying(GlobalAudioTags.LevelMusic))
         {
-            emergencyTime = 3f,
-            persistent = true,
-            looping = true
-        });
+            AudioManager.PlayAudio(mainMenuMusic, GlobalAudioTags.LevelMusic, MixerGroups.Music, new PlaySettings()
+            {
+                emergencyTime = 3f,
+                persistent = true,
+                looping = true
+            });
+        }
     }
 }

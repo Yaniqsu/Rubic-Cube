@@ -18,8 +18,8 @@ MonoBehaviour:
   - <Name>k__BackingField: Easy
     <RandomizedTurns>k__BackingField: 3
   - <Name>k__BackingField: Pretty Easy
-    <RandomizedTurns>k__BackingField: 5
+    <RandomizedTurns>k__BackingField: 4
   - <Name>k__BackingField: Maybe easy?
-    <RandomizedTurns>k__BackingField: 7
+    <RandomizedTurns>k__BackingField: 5
   - <Name>k__BackingField: Normal
     <RandomizedTurns>k__BackingField: 30
